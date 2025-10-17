@@ -293,10 +293,7 @@ const Index = () => {
                         <Icon name="Check" size={16} className="text-primary" />
                         Улучшена чёткость
                       </p>
-                      <p className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Профессиональная обработка
-                      </p>
+                      <p className="flex items-center gap-2">Профессиональная ретушь</p>
                     </div>
                   </div>
                 </div>
