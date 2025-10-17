@@ -533,6 +533,28 @@ const Index = () => {
                       8 (996) 068-11-68
                     </a>
                     <p className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</p>
+                    
+                    <div className="flex items-center gap-3">
+                      <a 
+                        href="https://wa.me/79960681168" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-lg transition-colors"
+                      >
+                        <Icon name="MessageCircle" size={20} />
+                        <span className="font-medium">WhatsApp</span>
+                      </a>
+                      <a 
+                        href="https://t.me/79960681168" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#0088cc] hover:bg-[#006699] text-white rounded-lg transition-colors"
+                      >
+                        <Icon name="Send" size={20} />
+                        <span className="font-medium">Telegram</span>
+                      </a>
+                    </div>
+                    
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Icon name="MapPin" size={16} />
                       <span>ул. Державина 17, стр. 3</span>
