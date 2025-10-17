@@ -7,7 +7,6 @@ import { useState } from "react";
 
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
-  const [activeTab, setActiveTab] = useState(0);
 
   const monuments = [
     {
@@ -41,7 +40,7 @@ const Index = () => {
 
   const advantages = [
     { icon: "Award", title: "16 лет опыта", desc: "Работаем с 2008 года" },
-    { icon: "Users", title: "2000+ довольных клиентов", desc: "Отзывы на сайте" },
+    { icon: "Users", title: "2000+ клиентов", desc: "Положительные отзывы" },
     { icon: "Shield", title: "Гарантия качества", desc: "До 10 лет" },
     { icon: "Clock", title: "Точные сроки", desc: "Договор с датами" }
   ];
@@ -69,7 +68,7 @@ const Index = () => {
               <h1 className="font-oswald font-bold text-2xl text-primary">ГРАНИТНЫЕ ПАМЯТНИКИ</h1>
               <p className="text-xs text-muted-foreground">Производство с 2008 года</p>
             </div>
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-6 text-sm">
               <a href="#catalog" className="hover:text-primary transition-colors">Каталог</a>
               <a href="#services" className="hover:text-primary transition-colors">Услуги</a>
               <a href="#prices" className="hover:text-primary transition-colors">Цены</a>
@@ -89,26 +88,32 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
               Изготовление памятников из гранита
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in">
               Более 16 лет создаём памятники, которые сохраняют память о ваших близких
             </p>
             <div className="flex flex-wrap gap-4 mb-8">
-              <div className="flex items-center gap-2">
-                <Icon name="Check" className="text-primary" size={24} />
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Icon name="Check" className="text-primary" size={16} />
+                </div>
                 <span>Собственное производство</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="Check" className="text-primary" size={24} />
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Icon name="Check" className="text-primary" size={16} />
+                </div>
                 <span>Гарантия до 10 лет</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="Check" className="text-primary" size={24} />
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Icon name="Check" className="text-primary" size={16} />
+                </div>
                 <span>Доставка и установка</span>
               </div>
             </div>
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-xl px-8 py-6"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
@@ -119,12 +124,14 @@ const Index = () => {
 
       <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
-            Каталог памятников
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Выберите готовый вариант или закажите индивидуальный проект
-          </p>
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Каталог памятников
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Выберите готовый вариант или закажите индивидуальный проект
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {monuments.map((item, idx) => (
@@ -133,7 +140,7 @@ const Index = () => {
                 className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
-                <div className="relative aspect-[3/4] overflow-hidden">
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <img 
                     src={item.image} 
                     alt={item.title}
@@ -142,12 +149,13 @@ const Index = () => {
                 </div>
                 <CardContent className="p-6">
                   <h3 className="font-oswald font-semibold text-xl mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">Размер: {item.size} см</p>
+                  <p className="text-sm text-muted-foreground mb-4">Размер: {item.size} см</p>
                   <div className="flex justify-between items-center">
                     <span className="font-oswald text-2xl text-primary">{item.price}</span>
                     <Button 
                       variant="outline" 
                       size="sm"
+                      className="font-oswald"
                       onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                     >
                       Заказать
@@ -173,12 +181,14 @@ const Index = () => {
 
       <section id="services" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
-            Наши услуги
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Полный комплекс услуг от изготовления до установки
-          </p>
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Наши услуги
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Полный комплекс услуг от изготовления до установки
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {services.map((service, idx) => (
@@ -206,9 +216,14 @@ const Index = () => {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-12">
-            Почему выбирают нас
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Почему выбирают нас
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Профессионализм и качество проверенные временем
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {advantages.map((adv, idx) => (
@@ -230,70 +245,85 @@ const Index = () => {
 
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-12">
+          <div className="text-center mb-12">
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Ретушь фото для памятника
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Профессиональная обработка и восстановление фотографий
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="max-w-5xl mx-auto mb-12">
             <Card className="bg-card border-border overflow-hidden">
               <CardContent className="p-8">
-                <h3 className="font-oswald font-semibold text-2xl text-center mb-6">
-                  Реставрация старой фотографии
+                <h3 className="font-oswald font-semibold text-2xl text-center mb-8">
+                  Пример реставрации старой фотографии
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-border">
+                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-border bg-secondary">
                       <img 
                         src="https://cdn.poehali.dev/files/3e19395b-495c-4eef-91ce-74b56fbffe66.jpg"
                         alt="Фото до реставрации"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-4 left-4 bg-muted text-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
-                        ДО
+                      <div className="absolute top-4 left-4 bg-secondary text-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm border border-border">
+                        ДО ОБРАБОТКИ
                       </div>
                     </div>
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      <p className="flex items-center gap-2">
-                        <Icon name="X" size={16} className="text-destructive" />
+                    <div className="space-y-2 text-sm">
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="X" size={14} className="text-destructive" />
+                        </div>
                         Трещины и повреждения
                       </p>
-                      <p className="flex items-center gap-2">
-                        <Icon name="X" size={16} className="text-destructive" />
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="X" size={14} className="text-destructive" />
+                        </div>
                         Низкая контрастность
                       </p>
-                      <p className="flex items-center gap-2">
-                        <Icon name="X" size={16} className="text-destructive" />
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="X" size={14} className="text-destructive" />
+                        </div>
                         Выцветшие участки
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-primary">
+                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-primary bg-secondary">
                       <img 
                         src="https://cdn.poehali.dev/files/ed11db8d-2e82-4c44-a219-2b25cbe05cd3.jpg"
                         alt="Фото после реставрации"
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
-                        ПОСЛЕ
+                        ПОСЛЕ ОБРАБОТКИ
                       </div>
                     </div>
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      <p className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
+                    <div className="space-y-2 text-sm">
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={14} className="text-primary" />
+                        </div>
                         Устранены все повреждения
                       </p>
-                      <p className="flex items-center gap-2">
-                        <Icon name="Check" size={16} className="text-primary" />
-                        Улучшена чёткость
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={14} className="text-primary" />
+                        </div>
+                        Улучшена чёткость и детали
                       </p>
-                      <p className="flex items-center gap-2">Профессиональная ретушь</p>
+                      <p className="flex items-center gap-2 text-muted-foreground">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={14} className="text-primary" />
+                        </div>
+                        Готово к гравировке
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -301,10 +331,10 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
             <Card className="bg-card border-border overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative aspect-[3/4]">
+                <div className="relative aspect-[3/4] bg-secondary">
                   <img 
                     src="https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png"
                     alt="Ретушь мужского портрета"
@@ -322,7 +352,7 @@ const Index = () => {
 
             <Card className="bg-card border-border overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative aspect-[3/4]">
+                <div className="relative aspect-[3/4] bg-secondary">
                   <img 
                     src="https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png"
                     alt="Ретушь женского портрета"
@@ -339,17 +369,14 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="text-center mt-8">
-            <p className="text-muted-foreground mb-4">
-              Восстанавливаем старые фотографии • Улучшаем качество • Готовим к гравировке
-            </p>
+          <div className="text-center">
             <Button 
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Icon name="Image" className="mr-2" size={20} />
-              ЗАКАЗАТЬ РЕТУШЬ
+              ЗАКАЗАТЬ РЕТУШЬ ФОТО
             </Button>
           </div>
         </div>
@@ -357,15 +384,17 @@ const Index = () => {
 
       <section id="prices" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
-            Цены на памятники
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Прозрачное ценообразование без скрытых платежей
-          </p>
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Цены на памятники
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Прозрачное ценообразование без скрытых платежей
+            </p>
+          </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="bg-card border-border">
+            <Card className="bg-card border-border mb-8">
               <CardContent className="p-0">
                 {prices.map((item, idx) => (
                   <div 
@@ -379,23 +408,47 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <div className="mt-8 p-6 bg-secondary rounded-lg">
-              <div className="flex items-start gap-4">
-                <Icon name="Info" className="text-primary flex-shrink-0 mt-1" size={24} />
-                <div>
-                  <p className="font-semibold mb-2">Что входит в стоимость:</p>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• Изготовление памятника из качественного гранита</li>
-                    <li>• Полировка всех поверхностей</li>
-                    <li>• Гравировка ФИО и дат</li>
-                    <li>• Упаковка для транспортировки</li>
-                  </ul>
-                  <p className="text-xs text-muted-foreground mt-4">
-                    * Доставка и установка оплачиваются отдельно. Точная стоимость рассчитывается индивидуально.
-                  </p>
+            <Card className="bg-secondary border-border">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Info" className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-3">Что входит в стоимость:</p>
+                    <ul className="text-sm text-muted-foreground space-y-2">
+                      <li className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={12} className="text-primary" />
+                        </div>
+                        Изготовление памятника из качественного гранита
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={12} className="text-primary" />
+                        </div>
+                        Полировка всех поверхностей
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={12} className="text-primary" />
+                        </div>
+                        Гравировка ФИО и дат
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Check" size={12} className="text-primary" />
+                        </div>
+                        Упаковка для транспортировки
+                      </li>
+                    </ul>
+                    <p className="text-xs text-muted-foreground mt-4">
+                      * Доставка и установка оплачиваются отдельно. Точная стоимость рассчитывается индивидуально.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             <div className="text-center mt-8">
               <Button 
@@ -413,12 +466,14 @@ const Index = () => {
       <section id="contact" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
-            <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
-              Оставьте заявку
-            </h2>
-            <p className="text-center text-muted-foreground mb-12">
-              Перезвоним в течение 15 минут и ответим на все вопросы
-            </p>
+            <div className="text-center mb-12">
+              <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+                Оставьте заявку
+              </h2>
+              <p className="text-muted-foreground">
+                Перезвоним в течение 15 минут и ответим на все вопросы
+              </p>
+            </div>
 
             <Card className="bg-card border-border">
               <CardContent className="p-8">
@@ -512,10 +567,22 @@ const Index = () => {
             <div>
               <h3 className="font-oswald font-bold text-xl mb-4">Услуги</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Изготовление памятников</li>
-                <li>• Художественная резьба</li>
-                <li>• Портреты и гравировка</li>
-                <li>• Доставка и установка</li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Изготовление памятников
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Художественная резьба
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Портреты и гравировка
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Доставка и установка
+                </li>
               </ul>
             </div>
           </div>
