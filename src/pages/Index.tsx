@@ -37,6 +37,24 @@ const Index = () => {
     { value: "∞", label: "внимание к деталям" }
   ];
 
+  const gallery = [
+    {
+      url: "https://cdn.poehali.dev/files/692de6e1-c8ae-42f8-ac61-0d8770aeb8ec.png",
+      title: "Памятник с розами и листьями",
+      description: "Художественная резьба, розы"
+    },
+    {
+      url: "https://cdn.poehali.dev/files/a6e29eb2-0f18-47ca-917e-adac360db4c3.jpeg",
+      title: "Памятник с ангелом в форме сердца",
+      description: "Эксклюзивная резьба, ангел"
+    },
+    {
+      url: "https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg",
+      title: "Разнообразие стилей и форм",
+      description: "Лебеди, религиозные символы"
+    }
+  ];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
@@ -126,6 +144,45 @@ const Index = () => {
                     {service.description}
                   </p>
                 </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4 text-primary">
+            НАШИ РАБОТЫ
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Каждый памятник — это уникальное произведение, созданное с любовью и вниманием к деталям
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+            {gallery.map((item, idx) => (
+              <Card 
+                key={idx} 
+                className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
+                style={{ animationDelay: `${idx * 0.15}s` }}
+              >
+                <div className="relative overflow-hidden aspect-[3/4]">
+                  <img 
+                    src={item.url} 
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="font-oswald font-semibold text-xl text-white mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-300 text-sm">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </Card>
             ))}
           </div>
