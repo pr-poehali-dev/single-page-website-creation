@@ -7,65 +7,52 @@ import { useState } from "react";
 
 const Index = () => {
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [activeTab, setActiveTab] = useState(0);
+
+  const monuments = [
+    {
+      image: "https://cdn.poehali.dev/files/692de6e1-c8ae-42f8-ac61-0d8770aeb8ec.png",
+      title: "Вертикальные памятники",
+      price: "от 15 000 ₽",
+      size: "100x50x5"
+    },
+    {
+      image: "https://cdn.poehali.dev/files/a6e29eb2-0f18-47ca-917e-adac360db4c3.jpeg",
+      title: "Эксклюзивные памятники",
+      price: "от 45 000 ₽",
+      size: "120x60x8"
+    },
+    {
+      image: "https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg",
+      title: "Комплексы на могилу",
+      price: "от 80 000 ₽",
+      size: "комплект"
+    }
+  ];
 
   const services = [
-    {
-      title: "Простые памятники",
-      description: "Классические формы, качественный гранит, доступные цены",
-      icon: "Square"
-    },
-    {
-      title: "Художественная резьба",
-      description: "Ангелы, лебеди, цветы и религиозные символы",
-      icon: "Sparkles"
-    },
-    {
-      title: "Идеальные портреты",
-      description: "Высокая детализация, профессиональная обработка",
-      icon: "User"
-    },
-    {
-      title: "Эксклюзивные проекты",
-      description: "Индивидуальный дизайн, сложные композиции",
-      icon: "Crown"
-    }
+    { icon: "Hammer", title: "Изготовление памятников", desc: "От простых до эксклюзивных" },
+    { icon: "Image", title: "Портреты и гравировка", desc: "Идеальное качество" },
+    { icon: "Palette", title: "Художественная резьба", desc: "Ангелы, цветы, узоры" },
+    { icon: "Truck", title: "Доставка и установка", desc: "По всей области" },
+    { icon: "FileText", title: "Оформление документов", desc: "Все разрешения" },
+    { icon: "Wrench", title: "Благоустройство могил", desc: "Полный комплекс работ" }
   ];
 
   const advantages = [
-    { value: "16+", label: "лет опыта" },
-    { value: "100%", label: "гранит" },
-    { value: "∞", label: "внимание к деталям" }
+    { icon: "Award", title: "16 лет опыта", desc: "Работаем с 2008 года" },
+    { icon: "Users", title: "2000+ довольных клиентов", desc: "Отзывы на сайте" },
+    { icon: "Shield", title: "Гарантия качества", desc: "До 10 лет" },
+    { icon: "Clock", title: "Точные сроки", desc: "Договор с датами" }
   ];
 
-  const gallery = [
-    {
-      url: "https://cdn.poehali.dev/files/692de6e1-c8ae-42f8-ac61-0d8770aeb8ec.png",
-      title: "Памятник с розами и листьями",
-      description: "Художественная резьба, розы"
-    },
-    {
-      url: "https://cdn.poehali.dev/files/a6e29eb2-0f18-47ca-917e-adac360db4c3.jpeg",
-      title: "Памятник с ангелом в форме сердца",
-      description: "Эксклюзивная резьба, ангел"
-    },
-    {
-      url: "https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg",
-      title: "Разнообразие стилей и форм",
-      description: "Лебеди, религиозные символы"
-    }
-  ];
-
-  const retouchExamples = [
-    {
-      before: "https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png",
-      after: "https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png",
-      title: "Профессиональная обработка мужского портрета"
-    },
-    {
-      before: "https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png",
-      after: "https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png",
-      title: "Профессиональная обработка женского портрета"
-    }
+  const prices = [
+    { name: "Памятник 100x50x5", price: "от 15 000 ₽" },
+    { name: "Памятник 120x60x8", price: "от 25 000 ₽" },
+    { name: "Эксклюзивный памятник", price: "от 45 000 ₽" },
+    { name: "Портрет на памятник", price: "от 5 000 ₽" },
+    { name: "Гравировка текста", price: "от 1 500 ₽" },
+    { name: "Художественная резьба", price: "от 10 000 ₽" }
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,36 +62,50 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-roboto">
-      <section 
-        className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg')` }}
-      >
-        <div className="container mx-auto px-4 text-center">
-          <div className="animate-fade-in">
-            <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg mb-8 font-oswald font-bold text-2xl md:text-3xl">
-              <Icon name="Phone" size={28} />
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="font-oswald font-bold text-2xl text-primary">ГРАНИТНЫЕ ПАМЯТНИКИ</h1>
+              <p className="text-xs text-muted-foreground">Производство с 2008 года</p>
+            </div>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#catalog" className="hover:text-primary transition-colors">Каталог</a>
+              <a href="#services" className="hover:text-primary transition-colors">Услуги</a>
+              <a href="#prices" className="hover:text-primary transition-colors">Цены</a>
+              <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
+            </div>
+            <a href="tel:+79960681168" className="flex items-center gap-2 font-oswald font-bold text-lg hover:text-primary transition-colors">
+              <Icon name="Phone" size={20} />
               8 (996) 068-11-68
-            </div>
-            
-            <h1 className="font-oswald font-bold text-4xl md:text-7xl mb-6 tracking-tight text-white">
-              ГРАНИТНЫЕ ПАМЯТНИКИ
-            </h1>
-            
-            <p className="text-xl md:text-3xl font-oswald font-medium text-primary mb-8">
-              ОТ ПРОСТЫХ ДО ЭКСКЛЮЗИВНЫХ
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section className="relative py-20 md:py-32 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
+              Изготовление памятников из гранита
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in">
+              Более 16 лет создаём памятники, которые сохраняют память о ваших близких
             </p>
-            
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="flex items-center gap-2 text-white">
+            <div className="flex flex-wrap gap-4 mb-8">
+              <div className="flex items-center gap-2">
                 <Icon name="Check" className="text-primary" size={24} />
-                <span className="text-lg">ИДЕАЛЬНЫЕ ПОРТРЕТЫ</span>
+                <span>Собственное производство</span>
               </div>
-              <div className="flex items-center gap-2 text-white">
+              <div className="flex items-center gap-2">
                 <Icon name="Check" className="text-primary" size={24} />
-                <span className="text-lg">РАБОТА С ДИЗАЙНЕРОМ</span>
+                <span>Гарантия до 10 лет</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="Check" className="text-primary" size={24} />
+                <span>Доставка и установка</span>
               </div>
             </div>
-            
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-xl px-8 py-6"
@@ -116,33 +117,73 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-16 bg-secondary">
+      <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-around items-center gap-8">
-            {advantages.map((adv, idx) => (
-              <div key={idx} className="text-center animate-fade-in" style={{ animationDelay: `${idx * 0.2}s` }}>
-                <div className="font-oswald font-bold text-5xl md:text-7xl text-primary mb-2">
-                  {adv.value}
+          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
+            Каталог памятников
+          </h2>
+          <p className="text-center text-muted-foreground mb-12">
+            Выберите готовый вариант или закажите индивидуальный проект
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {monuments.map((item, idx) => (
+              <Card 
+                key={idx}
+                className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <div className="text-lg md:text-xl text-muted-foreground uppercase">
-                  {adv.label}
-                </div>
-              </div>
+                <CardContent className="p-6">
+                  <h3 className="font-oswald font-semibold text-xl mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">Размер: {item.size} см</p>
+                  <div className="flex justify-between items-center">
+                    <span className="font-oswald text-2xl text-primary">{item.price}</span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      Заказать
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="font-oswald"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              СМОТРЕТЬ ВЕСЬ КАТАЛОГ
+            </Button>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section id="services" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-12 text-primary">
-            НАШИ УСЛУГИ
+          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
+            Наши услуги
           </h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <p className="text-center text-muted-foreground mb-12">
+            Полный комплекс услуг от изготовления до установки
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {services.map((service, idx) => (
               <Card 
-                key={idx} 
+                key={idx}
                 className="bg-card border-border hover:border-primary transition-all duration-300 animate-fade-in"
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
@@ -150,11 +191,11 @@ const Index = () => {
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon name={service.icon as any} className="text-primary" size={32} />
                   </div>
-                  <h3 className="font-oswald font-semibold text-xl mb-3">
+                  <h3 className="font-oswald font-semibold text-xl mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground">
-                    {service.description}
+                  <p className="text-muted-foreground text-sm">
+                    {service.desc}
                   </p>
                 </CardContent>
               </Card>
@@ -165,38 +206,23 @@ const Index = () => {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4 text-primary">
-            НАШИ РАБОТЫ
+          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-12">
+            Почему выбирают нас
           </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Каждый памятник — это уникальное произведение, созданное с любовью и вниманием к деталям
-          </p>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
-            {gallery.map((item, idx) => (
-              <Card 
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {advantages.map((adv, idx) => (
+              <div 
                 key={idx} 
-                className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
-                style={{ animationDelay: `${idx * 0.15}s` }}
+                className="text-center animate-fade-in"
+                style={{ animationDelay: `${idx * 0.1}s` }}
               >
-                <div className="relative overflow-hidden aspect-[3/4]">
-                  <img 
-                    src={item.url} 
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h3 className="font-oswald font-semibold text-xl text-white mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-300 text-sm">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name={adv.icon as any} className="text-primary" size={40} />
                 </div>
-              </Card>
+                <h3 className="font-oswald font-semibold text-xl mb-2">{adv.title}</h3>
+                <p className="text-muted-foreground text-sm">{adv.desc}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -205,165 +231,192 @@ const Index = () => {
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4 text-primary">
-              РЕТУШЬ ФОТО НА ПАМЯТНИК
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Ретушь фото для памятника
             </h2>
-            <p className="text-muted-foreground text-lg mb-2">
-              Профессиональная обработка фотографий для памятников
-            </p>
-            <p className="text-muted-foreground">
-              Восстанавливаем старые фотографии, улучшаем качество, создаём идеальные портреты для гравировки
+            <p className="text-muted-foreground text-lg">
+              Профессиональная обработка и восстановление фотографий
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {retouchExamples.map((example, idx) => (
-              <Card 
-                key={idx}
-                className="bg-card border-border overflow-hidden animate-fade-in"
-                style={{ animationDelay: `${idx * 0.2}s` }}
-              >
-                <CardContent className="p-0">
-                  <div className="relative aspect-[3/4] overflow-hidden group">
-                    <img 
-                      src={example.after} 
-                      alt={example.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold">
-                      ПОСЛЕ
-                    </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <Card className="bg-card border-border overflow-hidden">
+              <CardContent className="p-0">
+                <div className="relative aspect-[3/4]">
+                  <img 
+                    src="https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png"
+                    alt="Ретушь мужского портрета"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
+                    ПОСЛЕ ОБРАБОТКИ
                   </div>
-                  <div className="p-6 text-center">
-                    <h3 className="font-oswald font-semibold text-xl mb-2">
-                      {example.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-4">
-                      Высокая детализация, профессиональная цветокоррекция
-                    </p>
-                    <div className="flex flex-wrap gap-2 justify-center text-xs">
-                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
-                        Реставрация
-                      </span>
-                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
-                        Цветокоррекция
-                      </span>
-                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
-                        Улучшение качества
-                      </span>
-                    </div>
+                </div>
+                <div className="p-4">
+                  <p className="text-sm text-center text-muted-foreground">Реставрация и улучшение качества</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-border overflow-hidden">
+              <CardContent className="p-0">
+                <div className="relative aspect-[3/4]">
+                  <img 
+                    src="https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png"
+                    alt="Ретушь женского портрета"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
+                    ПОСЛЕ ОБРАБОТКИ
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+                <div className="p-4">
+                  <p className="text-sm text-center text-muted-foreground">Цветокоррекция и детализация</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="text-center mt-8">
+            <p className="text-muted-foreground mb-4">
+              Восстанавливаем старые фотографии • Улучшаем качество • Готовим к гравировке
+            </p>
             <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Icon name="Image" className="mr-2" size={20} />
-              ЗАКАЗАТЬ РЕТУШЬ ФОТО
+              ЗАКАЗАТЬ РЕТУШЬ
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section id="prices" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-6 text-primary">
-              ОПЫТ И ПРОФЕССИОНАЛИЗМ
-            </h2>
-            <p className="text-lg md:text-xl text-foreground mb-4">
-              Более 16 лет мы создаём памятники, которые сохраняют память о ваших близких
-            </p>
-            <p className="text-muted-foreground">
-              Каждый проект — это индивидуальная работа с дизайнером. Мы используем только качественный гранит 
-              и современные технологии обработки камня для создания идеальных портретов и художественной резьбы.
-            </p>
-          </div>
+          <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
+            Цены на памятники
+          </h2>
+          <p className="text-center text-muted-foreground mb-12">
+            Прозрачное ценообразование без скрытых платежей
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              { icon: "Palette", title: "Индивидуальный дизайн", desc: "Работаем над каждым проектом с учетом ваших пожеланий" },
-              { icon: "Shield", title: "Гарантия качества", desc: "Используем проверенные материалы и технологии" },
-              { icon: "Clock", title: "Точные сроки", desc: "Соблюдаем оговоренные сроки изготовления" }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name={item.icon as any} className="text-primary" size={40} />
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-card border-border">
+              <CardContent className="p-0">
+                {prices.map((item, idx) => (
+                  <div 
+                    key={idx}
+                    className="flex justify-between items-center p-6 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors"
+                  >
+                    <span className="font-medium">{item.name}</span>
+                    <span className="font-oswald text-xl text-primary">{item.price}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <div className="mt-8 p-6 bg-secondary rounded-lg">
+              <div className="flex items-start gap-4">
+                <Icon name="Info" className="text-primary flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <p className="font-semibold mb-2">Что входит в стоимость:</p>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Изготовление памятника из качественного гранита</li>
+                    <li>• Полировка всех поверхностей</li>
+                    <li>• Гравировка ФИО и дат</li>
+                    <li>• Упаковка для транспортировки</li>
+                  </ul>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    * Доставка и установка оплачиваются отдельно. Точная стоимость рассчитывается индивидуально.
+                  </p>
                 </div>
-                <h3 className="font-oswald font-semibold text-xl mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm">{item.desc}</p>
               </div>
-            ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Button 
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                РАССЧИТАТЬ СТОИМОСТЬ
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="py-20 bg-background">
+      <section id="contact" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
-            <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4 text-primary">
-              СВЯЖИТЕСЬ С НАМИ
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl text-center mb-4">
+              Оставьте заявку
             </h2>
             <p className="text-center text-muted-foreground mb-12">
-              Оставьте заявку, и мы свяжемся с вами для обсуждения проекта
+              Перезвоним в течение 15 минут и ответим на все вопросы
             </p>
-            
+
             <Card className="bg-card border-border">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Ваше имя</label>
+                    <label className="block text-sm font-medium mb-2">Ваше имя *</label>
                     <Input 
-                      placeholder="Введите имя"
+                      placeholder="Введите ваше имя"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       className="bg-background border-border"
+                      required
                     />
                   </div>
-                  
+
                   <div>
-                    <label className="block text-sm font-medium mb-2">Телефон</label>
+                    <label className="block text-sm font-medium mb-2">Телефон *</label>
                     <Input 
                       placeholder="+7 (___) ___-__-__"
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       className="bg-background border-border"
+                      required
                     />
                   </div>
-                  
+
                   <div>
-                    <label className="block text-sm font-medium mb-2">Сообщение</label>
+                    <label className="block text-sm font-medium mb-2">Комментарий</label>
                     <Textarea 
-                      placeholder="Опишите ваш проект или задайте вопрос"
+                      placeholder="Опишите ваши пожелания"
                       rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       className="bg-background border-border"
                     />
                   </div>
-                  
+
                   <Button 
-                    type="submit" 
+                    type="submit"
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg py-6"
                   >
                     ОТПРАВИТЬ ЗАЯВКУ
                   </Button>
+
+                  <p className="text-xs text-muted-foreground text-center">
+                    Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
+                  </p>
                 </form>
-                
-                <div className="mt-8 pt-8 border-t border-border text-center">
-                  <div className="flex items-center justify-center gap-2 text-2xl font-oswald font-bold mb-2">
-                    <Icon name="Phone" className="text-primary" size={24} />
-                    <a href="tel:+79960681168" className="hover:text-primary transition-colors">
+
+                <div className="mt-8 pt-8 border-t border-border">
+                  <div className="flex flex-col items-center gap-4">
+                    <a 
+                      href="tel:+79960681168" 
+                      className="flex items-center gap-2 text-2xl font-oswald font-bold hover:text-primary transition-colors"
+                    >
+                      <Icon name="Phone" size={28} />
                       8 (996) 068-11-68
                     </a>
+                    <p className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</p>
                 </div>
               </CardContent>
             </Card>
@@ -371,15 +424,43 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="py-8 bg-secondary border-t border-border">
+      <footer className="py-12 bg-background border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <p className="text-muted-foreground">
-              © 2024 Гранитные памятники. Все права защищены.
-            </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Опыт и профессионализм — более 16 лет
-            </p>
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 className="font-oswald font-bold text-xl mb-4">О компании</h3>
+              <p className="text-sm text-muted-foreground">
+                Производство гранитных памятников с 2008 года. Собственное производство, гарантия качества.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-oswald font-bold text-xl mb-4">Контакты</h3>
+              <div className="space-y-2 text-sm">
+                <p className="flex items-center gap-2">
+                  <Icon name="Phone" size={16} />
+                  <a href="tel:+79960681168" className="hover:text-primary transition-colors">
+                    8 (996) 068-11-68
+                  </a>
+                </p>
+                <p className="text-muted-foreground">Ежедневно с 9:00 до 20:00</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-oswald font-bold text-xl mb-4">Услуги</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• Изготовление памятников</li>
+                <li>• Художественная резьба</li>
+                <li>• Портреты и гравировка</li>
+                <li>• Доставка и установка</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-border text-center text-sm text-muted-foreground">
+            <p>© 2024 Гранитные памятники. Все права защищены.</p>
+            <p className="mt-2">Опыт и профессионализм — более 16 лет</p>
           </div>
         </div>
       </footer>
