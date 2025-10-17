@@ -55,6 +55,19 @@ const Index = () => {
     }
   ];
 
+  const retouchExamples = [
+    {
+      before: "https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png",
+      after: "https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png",
+      title: "Профессиональная обработка мужского портрета"
+    },
+    {
+      before: "https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png",
+      after: "https://cdn.poehali.dev/files/7112f930-700c-4c99-a122-56bf0dbc2b2c.png",
+      title: "Профессиональная обработка женского портрета"
+    }
+  ];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
@@ -190,6 +203,75 @@ const Index = () => {
       </section>
 
       <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4 text-primary">
+              РЕТУШЬ ФОТО НА ПАМЯТНИК
+            </h2>
+            <p className="text-muted-foreground text-lg mb-2">
+              Профессиональная обработка фотографий для памятников
+            </p>
+            <p className="text-muted-foreground">
+              Восстанавливаем старые фотографии, улучшаем качество, создаём идеальные портреты для гравировки
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {retouchExamples.map((example, idx) => (
+              <Card 
+                key={idx}
+                className="bg-card border-border overflow-hidden animate-fade-in"
+                style={{ animationDelay: `${idx * 0.2}s` }}
+              >
+                <CardContent className="p-0">
+                  <div className="relative aspect-[3/4] overflow-hidden group">
+                    <img 
+                      src={example.after} 
+                      alt={example.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold">
+                      ПОСЛЕ
+                    </div>
+                  </div>
+                  <div className="p-6 text-center">
+                    <h3 className="font-oswald font-semibold text-xl mb-2">
+                      {example.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4">
+                      Высокая детализация, профессиональная цветокоррекция
+                    </p>
+                    <div className="flex flex-wrap gap-2 justify-center text-xs">
+                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
+                        Реставрация
+                      </span>
+                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
+                        Цветокоррекция
+                      </span>
+                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full">
+                        Улучшение качества
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Icon name="Image" className="mr-2" size={20} />
+              ЗАКАЗАТЬ РЕТУШЬ ФОТО
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-6 text-primary">
