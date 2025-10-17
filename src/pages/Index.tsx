@@ -74,10 +74,18 @@ const Index = () => {
               <a href="#prices" className="hover:text-primary transition-colors">Цены</a>
               <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
             </div>
-            <a href="tel:+79960681168" className="flex items-center gap-1.5 font-oswald font-bold text-base hover:text-primary transition-colors whitespace-nowrap">
-              <Icon name="Phone" size={18} />
-              8 (996) 068-11-68
-            </a>
+            <div className="flex items-center gap-3">
+              <a href="tel:+79960681168" className="flex items-center gap-1.5 font-oswald font-bold text-base hover:text-primary transition-colors whitespace-nowrap">
+                <Icon name="Phone" size={18} />
+                8 (996) 068-11-68
+              </a>
+              <a href="https://wa.me/79960681168" target="_blank" rel="noopener noreferrer" className="p-2 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-lg transition-colors">
+                <Icon name="MessageCircle" size={18} />
+              </a>
+              <a href="https://t.me/79960681168" target="_blank" rel="noopener noreferrer" className="p-2 bg-[#0088cc] hover:bg-[#006699] text-white rounded-lg transition-colors">
+                <Icon name="Send" size={18} />
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -579,7 +587,7 @@ const Index = () => {
 
             <div>
               <h3 className="font-oswald font-bold text-xl mb-4">Контакты</h3>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-3 text-sm">
                 <p className="flex items-center gap-2">
                   <Icon name="Phone" size={16} />
                   <a href="tel:+79960681168" className="hover:text-primary transition-colors">
@@ -587,6 +595,16 @@ const Index = () => {
                   </a>
                 </p>
                 <p className="text-muted-foreground">Ежедневно с 9:00 до 20:00</p>
+                <div className="flex items-center gap-2">
+                  <a href="https://wa.me/79960681168" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-lg transition-colors text-xs">
+                    <Icon name="MessageCircle" size={14} />
+                    <span>WhatsApp</span>
+                  </a>
+                  <a href="https://t.me/79960681168" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 bg-[#0088cc] hover:bg-[#006699] text-white rounded-lg transition-colors text-xs">
+                    <Icon name="Send" size={14} />
+                    <span>Telegram</span>
+                  </a>
+                </div>
                 <p className="flex items-center gap-2 text-muted-foreground">
                   <Icon name="MapPin" size={16} />
                   <span>ул. Державина 17, стр. 3</span>
