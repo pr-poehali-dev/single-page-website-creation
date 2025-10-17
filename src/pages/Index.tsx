@@ -239,6 +239,71 @@ const Index = () => {
             </p>
           </div>
 
+          <div className="max-w-4xl mx-auto mb-12">
+            <Card className="bg-card border-border overflow-hidden">
+              <CardContent className="p-8">
+                <h3 className="font-oswald font-semibold text-2xl text-center mb-6">
+                  Реставрация старой фотографии
+                </h3>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-border">
+                      <img 
+                        src="https://cdn.poehali.dev/files/3e19395b-495c-4eef-91ce-74b56fbffe66.jpg"
+                        alt="Фото до реставрации"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-4 left-4 bg-muted text-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
+                        ДО
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      <p className="flex items-center gap-2">
+                        <Icon name="X" size={16} className="text-destructive" />
+                        Трещины и повреждения
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Icon name="X" size={16} className="text-destructive" />
+                        Низкая контрастность
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Icon name="X" size={16} className="text-destructive" />
+                        Выцветшие участки
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="relative aspect-[3/4] mb-4 rounded-lg overflow-hidden border-2 border-primary">
+                      <img 
+                        src="https://cdn.poehali.dev/files/ed11db8d-2e82-4c44-a219-2b25cbe05cd3.jpg"
+                        alt="Фото после реставрации"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
+                        ПОСЛЕ
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      <p className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-primary" />
+                        Устранены все повреждения
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-primary" />
+                        Улучшена чёткость
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-primary" />
+                        Профессиональная обработка
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Card className="bg-card border-border overflow-hidden">
               <CardContent className="p-0">
