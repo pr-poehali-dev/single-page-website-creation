@@ -533,6 +533,10 @@ const Index = () => {
                       8 (996) 068-11-68
                     </a>
                     <p className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</p>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Icon name="MapPin" size={16} />
+                      <span>ул. Державина 17, стр. 3</span>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -561,6 +565,10 @@ const Index = () => {
                   </a>
                 </p>
                 <p className="text-muted-foreground">Ежедневно с 9:00 до 20:00</p>
+                <p className="flex items-center gap-2 text-muted-foreground">
+                  <Icon name="MapPin" size={16} />
+                  <span>ул. Державина 17, стр. 3</span>
+                </p>
               </div>
             </div>
 
