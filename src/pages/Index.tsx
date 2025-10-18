@@ -184,6 +184,109 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Помощь дизайнера */}
+      <section className="py-20 bg-gradient-to-b from-background to-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Помощь дизайнера в подборе памятника
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Не знаете, какой памятник выбрать? Наш дизайнер поможет подобрать идеальный вариант
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <Card className="bg-card border-border shadow-xl overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Palette" size={24} className="text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-oswald font-bold text-xl mb-2">Индивидуальный подход</h3>
+                          <div className="text-muted-foreground">
+                            Учтём все ваши пожелания: форму, размер, материал, декоративные элементы
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Image" size={24} className="text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-oswald font-bold text-xl mb-2">3D визуализация</h3>
+                          <div className="text-muted-foreground">
+                            Покажем, как будет выглядеть памятник до начала работ
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Target" size={24} className="text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-oswald font-bold text-xl mb-2">Подбор в рамках бюджета</h3>
+                          <div className="text-muted-foreground">
+                            Предложим оптимальные варианты под ваш бюджет
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 border-t border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Icon name="Phone" size={20} className="text-primary" />
+                        <span className="font-oswald font-bold text-lg">Бесплатная консультация</span>
+                      </div>
+                      <Button 
+                        size="lg"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg"
+                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      >
+                        ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ ДИЗАЙНЕРА
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative group overflow-hidden rounded-lg">
+                      <img 
+                        src="https://cdn.poehali.dev/files/ff61127a-f19b-45fb-a0b0-0de645b1e942.jpg"
+                        alt="Вариант памятника 1"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div className="relative group overflow-hidden rounded-lg">
+                      <img 
+                        src="https://cdn.poehali.dev/files/a2c6a92c-4a27-4268-a9b2-25eac2f8dad9.jpg"
+                        alt="Вариант памятника 2"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div className="relative group overflow-hidden rounded-lg col-span-2">
+                      <img 
+                        src="https://cdn.poehali.dev/files/a3bce19f-dfe6-4d50-b322-ddd2ed85257a.jpg"
+                        alt="Вариант памятника 3"
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
