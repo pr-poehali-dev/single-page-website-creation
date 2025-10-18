@@ -565,10 +565,23 @@ const Index = () => {
                     
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Icon name="MapPin" size={16} />
-                      <span>ул. Державина 17, стр. 3</span>
+                      <span>Великий Новгород, ул. Державина 17, стр. 3</span>
                     </div>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <iframe 
+                  src="https://yandex.ru/map-widget/v1/?um=constructor%3A8c3e8e0f4f9f4c8d9c0e0f4f9f4c8d9c&amp;source=constructor&amp;ll=31.275559%2C58.522857&amp;z=16&amp;pt=31.275559,58.522857,pm2rdm"
+                  width="100%" 
+                  height="400" 
+                  frameBorder="0"
+                  className="w-full"
+                  title="Карта расположения"
+                />
               </CardContent>
             </Card>
           </div>
