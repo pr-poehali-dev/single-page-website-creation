@@ -157,7 +157,7 @@ const Index = () => {
                 </div>
                 <CardContent className="p-6">
                   <h3 className="font-oswald font-semibold text-xl mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Размер: {item.size} см</p>
+                  <div className="text-sm text-muted-foreground mb-4">Размер: {item.size} см</div>
                   <div className="flex justify-between items-center">
                     <span className="font-oswald text-2xl text-primary">{item.price}</span>
                     <Button 
@@ -193,9 +193,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Наши услуги
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-muted-foreground max-w-2xl mx-auto">
               Полный комплекс услуг от изготовления до установки
-            </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -212,9 +212,9 @@ const Index = () => {
                   <h3 className="font-oswald font-semibold text-xl mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm">
+                  <div className="text-muted-foreground text-sm">
                     {service.desc}
-                  </p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -228,9 +228,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Почему выбирают нас
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-muted-foreground max-w-2xl mx-auto">
               Профессионализм и качество проверенные временем
-            </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -244,7 +244,7 @@ const Index = () => {
                   <Icon name={adv.icon as any} className="text-primary" size={40} />
                 </div>
                 <h3 className="font-oswald font-semibold text-xl mb-2">{adv.title}</h3>
-                <p className="text-muted-foreground text-sm">{adv.desc}</p>
+                <div className="text-muted-foreground text-sm">{adv.desc}</div>
               </div>
             ))}
           </div>
@@ -257,9 +257,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Ретушь фото для памятника
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-muted-foreground max-w-2xl mx-auto">
               Профессиональная обработка и восстановление фотографий
-            </p>
+            </div>
           </div>
 
           <div className="max-w-5xl mx-auto mb-12">
@@ -314,24 +314,24 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="Check" size={14} className="text-primary" />
                         </div>
                         Устранены все повреждения
-                      </p>
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="Check" size={14} className="text-primary" />
                         </div>
                         Улучшена чёткость и детали
-                      </p>
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="Check" size={14} className="text-primary" />
                         </div>
                         Готово к гравировке
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@ const Index = () => {
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-sm text-center text-muted-foreground">Реставрация и улучшение качества</p>
+                  <div className="text-sm text-center text-muted-foreground">Реставрация и улучшение качества</div>
                 </div>
               </CardContent>
             </Card>
@@ -371,7 +371,7 @@ const Index = () => {
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-sm text-center text-muted-foreground">Цветокоррекция и детализация</p>
+                  <div className="text-sm text-center text-muted-foreground">Цветокоррекция и детализация</div>
                 </div>
               </CardContent>
             </Card>
@@ -396,9 +396,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Цены на памятники
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-muted-foreground max-w-2xl mx-auto">
               Прозрачное ценообразование без скрытых платежей
-            </p>
+            </div>
           </div>
 
           <div className="max-w-4xl mx-auto">
