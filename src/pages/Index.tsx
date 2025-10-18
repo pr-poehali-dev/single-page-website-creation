@@ -205,7 +205,7 @@ const Index = () => {
                           <Icon name="Image" size={24} className="text-primary" />
                         </div>
                         <div>
-                          <h3 className="font-oswald font-bold text-xl mb-2">3D визуализация</h3>
+                          <h3 className="font-oswald font-bold text-xl mb-2">Визуализация</h3>
                           <div className="text-muted-foreground">
                             Покажем, как будет выглядеть памятник до начала работ
                           </div>
