@@ -68,27 +68,13 @@ const Index = () => {
               <h1 className="font-oswald font-bold text-2xl text-primary">ГРАНИТНЫЕ ПАМЯТНИКИ</h1>
               <p className="text-xs text-muted-foreground">Производство с 2008 года</p>
             </div>
-            <div className="hidden lg:flex items-center gap-6 text-sm">
+            <div className="hidden md:flex items-center gap-6 text-sm">
               <a href="#catalog" className="hover:text-primary transition-colors">Каталог</a>
               <a href="#services" className="hover:text-primary transition-colors">Услуги</a>
               <a href="#prices" className="hover:text-primary transition-colors">Цены</a>
               <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
             </div>
             <div className="flex items-center gap-3">
-              {/* Баннер скидки */}
-              <div 
-                className="hidden md:flex items-center gap-2 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground px-3 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform shadow-lg"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <div className="flex flex-col items-center justify-center w-14 h-14 bg-white/20 backdrop-blur-sm rounded border-2 border-white/30">
-                  <div className="font-oswald font-bold text-2xl leading-none">25%</div>
-                  <div className="text-[10px] font-medium">СКИДКА</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-oswald font-bold text-sm leading-tight">АКЦИЯ</div>
-                  <div className="text-xs opacity-90">До конца месяца</div>
-                </div>
-              </div>
               <a href="tel:+79960681168" className="flex items-center gap-1.5 font-oswald font-bold text-base hover:text-primary transition-colors whitespace-nowrap">
                 <Icon name="Phone" size={18} />
                 8 (996) 068-11-68
@@ -106,40 +92,94 @@ const Index = () => {
 
       <section className="relative py-20 md:py-32 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
-              Изготовление памятников из гранита
-            </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in">
-              Более 16 лет создаём памятники, которые сохраняют память о ваших близких
-            </p>
-            <div className="flex flex-wrap gap-4 mb-8">
-              <div className="flex items-center gap-2 text-sm md:text-base">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Icon name="Check" className="text-primary" size={16} />
+          <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-center">
+            <div className="max-w-3xl">
+              <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
+                Изготовление памятников из гранита
+              </h2>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in">
+                Более 16 лет создаём памятники, которые сохраняют память о ваших близких
+              </p>
+              <div className="flex flex-wrap gap-4 mb-8">
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon name="Check" className="text-primary" size={16} />
+                  </div>
+                  <span>Собственное производство</span>
                 </div>
-                <span>Собственное производство</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm md:text-base">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Icon name="Check" className="text-primary" size={16} />
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon name="Check" className="text-primary" size={16} />
+                  </div>
+                  <span>Гарантия до 10 лет</span>
                 </div>
-                <span>Гарантия до 10 лет</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm md:text-base">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Icon name="Check" className="text-primary" size={16} />
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon name="Check" className="text-primary" size={16} />
+                  </div>
+                  <span>Доставка и установка</span>
                 </div>
-                <span>Доставка и установка</span>
               </div>
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
+              </Button>
             </div>
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
-            </Button>
+
+            {/* Баннер скидки */}
+            <div className="relative animate-fade-in">
+              <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 rounded-2xl p-8 shadow-2xl overflow-hidden min-w-[280px]">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+                
+                <div className="relative z-10 text-primary-foreground text-center">
+                  <div className="inline-flex items-center justify-center w-32 h-32 bg-white/20 backdrop-blur-sm rounded-2xl border-4 border-white/40 mb-4 shadow-lg">
+                    <div>
+                      <div className="font-oswald font-bold text-6xl leading-none">25%</div>
+                      <div className="text-sm font-bold mt-1">СКИДКА</div>
+                    </div>
+                  </div>
+                  
+                  <div className="font-oswald font-bold text-2xl mb-2">
+                    АКЦИЯ!
+                  </div>
+                  
+                  <div className="text-sm opacity-90 mb-4">
+                    На все памятники до конца месяца
+                  </div>
+                  
+                  <div className="space-y-2 mb-6 text-left">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Icon name="Gift" size={16} className="flex-shrink-0" />
+                      <span>Бесплатная консультация</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Icon name="Truck" size={16} className="flex-shrink-0" />
+                      <span>Доставка в подарок</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Icon name="Clock" size={16} className="flex-shrink-0" />
+                      <span>Срочное изготовление</span>
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    size="lg"
+                    className="w-full bg-white text-primary hover:bg-white/90 font-oswald font-bold shadow-lg"
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    <Icon name="Phone" className="mr-2" size={18} />
+                    ПОЛУЧИТЬ СКИДКУ
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Декоративные элементы */}
+              <div className="absolute -top-3 -right-3 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-3 -left-3 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
+            </div>
           </div>
         </div>
       </section>
