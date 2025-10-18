@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
 
   const monuments = [
@@ -130,13 +132,24 @@ const Index = () => {
                   <span>Доставка и установка</span>
                 </div>
               </div>
-              <Button 
-                size="lg" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
-              </Button>
+              <div className="flex flex-wrap gap-4">
+                <Button 
+                  size="lg" 
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
+                  onClick={() => navigate('/constructor')}
+                >
+                  <Icon name="Wrench" className="mr-2" size={20} />
+                  СОЗДАТЬ ПРОЕКТ
+                </Button>
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="font-oswald text-lg px-8 py-6"
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
+                </Button>
+              </div>
             </div>
 
             {/* Баннер скидки - квадратный */}
