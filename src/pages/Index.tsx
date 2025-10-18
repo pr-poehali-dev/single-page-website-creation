@@ -575,12 +575,13 @@ const Index = () => {
             <Card className="overflow-hidden">
               <CardContent className="p-0">
                 <iframe 
-                  src="https://yandex.ru/map-widget/v1/?um=constructor%3A8c3e8e0f4f9f4c8d9c0e0f4f9f4c8d9c&amp;source=constructor&amp;ll=31.275559%2C58.522857&amp;z=16&amp;pt=31.275559,58.522857,pm2rdm"
+                  src="https://yandex.ru/map-widget/v1/?ll=31.273500%2C58.521800&z=17&l=map&pt=31.273500,58.521800,pm2rdm"
                   width="100%" 
                   height="400" 
                   frameBorder="0"
                   className="w-full"
-                  title="Карта расположения"
+                  title="Великий Новгород, ул. Державина 17, стр. 3"
+                  allowFullScreen
                 />
               </CardContent>
             </Card>
