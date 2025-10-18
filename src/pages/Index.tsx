@@ -336,9 +336,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Наши услуги
             </h2>
-            <div className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Полный комплекс услуг от изготовления до установки
-            </div>
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -371,9 +371,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Почему выбирают нас
             </h2>
-            <div className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Профессионализм и качество проверенные временем
-            </div>
+            </p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -400,9 +400,9 @@ const Index = () => {
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Ретушь фото для памятника
             </h2>
-            <div className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Профессиональная обработка и восстановление фотографий
-            </div>
+            </p>
           </div>
 
           <div className="max-w-5xl mx-auto mb-12">
