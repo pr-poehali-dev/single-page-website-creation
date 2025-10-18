@@ -61,6 +61,46 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-roboto">
+      {/* Баннер со скидкой */}
+      <div className="bg-gradient-to-r from-primary via-primary/90 to-primary text-primary-foreground py-3 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 text-center md:text-left">
+            <div className="flex items-center gap-3">
+              <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg border-2 border-white/30">
+                <div className="font-oswald font-bold text-4xl md:text-5xl leading-none">25%</div>
+                <div className="text-xs font-medium mt-1">СКИДКА</div>
+              </div>
+              <div className="hidden md:block w-px h-12 bg-white/30"></div>
+            </div>
+            <div className="flex-1">
+              <div className="font-oswald font-bold text-xl md:text-2xl mb-1">
+                СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ НА ВСЕ ПАМЯТНИКИ
+              </div>
+              <div className="text-sm md:text-base flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <span className="flex items-center gap-1.5">
+                  <Icon name="Clock" size={16} />
+                  Акция ограничена по времени
+                </span>
+                <span className="hidden md:inline">•</span>
+                <span className="flex items-center gap-1.5">
+                  <Icon name="Gift" size={16} />
+                  Бесплатная консультация
+                </span>
+              </div>
+            </div>
+            <Button 
+              size="lg"
+              className="bg-white text-primary hover:bg-white/90 font-oswald font-bold text-base md:text-lg px-6 md:px-8 shadow-lg whitespace-nowrap"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Icon name="Phone" className="mr-2" size={20} />
+              ОСТАВИТЬ ЗАЯВКУ
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
