@@ -277,7 +277,7 @@ const Index = () => {
                         alt="Вариант памятника 3"
                         className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-0 my-3"></div>
                     </div>
                   </div>
                 </div>
