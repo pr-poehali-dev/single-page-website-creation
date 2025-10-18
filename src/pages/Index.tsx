@@ -526,9 +526,9 @@ const Index = () => {
                     ОТПРАВИТЬ ЗАЯВКУ
                   </Button>
 
-                  <p className="text-xs text-muted-foreground text-center">
+                  <div className="text-xs text-muted-foreground text-center">
                     Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
-                  </p>
+                  </div>
                 </form>
 
                 <div className="mt-8 pt-8 border-t border-border">
@@ -540,7 +540,7 @@ const Index = () => {
                       <Icon name="Phone" size={28} />
                       8 (996) 068-11-68
                     </a>
-                    <p className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</p>
+                    <div className="text-sm text-muted-foreground">Звоните ежедневно с 9:00 до 20:00</div>
                     
                     <div className="flex items-center gap-3">
                       <a 
