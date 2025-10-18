@@ -533,6 +533,123 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Наши работы - Галерея */}
+      <section id="portfolio" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Наши работы
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Примеры выполненных проектов — качество, которому доверяют
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {/* Фото 1 - Кладбище общий вид */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/bbcac88c-6deb-429e-b227-40488c7c5273.jpg"
+                alt="Благоустройство территории"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Комплексное благоустройство</h3>
+                  <p className="text-sm opacity-90">Установка памятников и уход за территорией</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Фото 2 - Памятник Хитарова */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/58ba923f-a428-4ebd-a17d-2cd8e5b523a8.jpg"
+                alt="Горизонтальный памятник с гравировкой"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Художественная гравировка</h3>
+                  <p className="text-sm opacity-90">Индивидуальный дизайн и качественное исполнение</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Фото 3 - Горизонтальный с крестом */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/c80c1bd4-c413-425a-a1fc-91dbb36a8de4.jpg"
+                alt="Горизонтальный памятник с крестом"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Горизонтальные памятники</h3>
+                  <p className="text-sm opacity-90">Классический дизайн из чёрного гранита</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Фото 4 - Из каталога */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/692de6e1-c8ae-42f8-ac61-0d8770aeb8ec.png"
+                alt="Вертикальный памятник"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Вертикальные памятники</h3>
+                  <p className="text-sm opacity-90">Традиционная форма, проверенная временем</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Фото 5 - Эксклюзивный */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/a6e29eb2-0f18-47ca-917e-adac360db4c3.jpeg"
+                alt="Эксклюзивный памятник"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Эксклюзивные проекты</h3>
+                  <p className="text-sm opacity-90">Уникальный дизайн по индивидуальному заказу</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Фото 6 - Комплекс */}
+            <div className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
+              <img 
+                src="https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg"
+                alt="Комплекс на могилу"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="font-oswald font-bold text-xl mb-2">Комплексы на могилу</h3>
+                  <p className="text-sm opacity-90">Полное обустройство с оградой и цветником</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button 
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Icon name="Phone" className="mr-2" size={20} />
+              ОБСУДИТЬ ВАШ ПРОЕКТ
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <section id="prices" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
