@@ -502,7 +502,7 @@ const Index = () => {
                   <img 
                     src="https://cdn.poehali.dev/files/a7e2b5c8-444e-4895-b70e-a11e197150b5.png"
                     alt="Ретушь мужского портрета"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                   <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg font-oswald font-semibold text-sm">
                     ПОСЛЕ ОБРАБОТКИ
