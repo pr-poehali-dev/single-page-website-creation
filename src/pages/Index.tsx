@@ -3,33 +3,31 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+interface Monument {
+  id?: number;
+  image_url: string;
+  title: string;
+  price: string;
+  size: string;
+  description?: string;
+}
 
 const Index = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [monuments, setMonuments] = useState<Monument[]>([]);
 
-  const monuments = [
-    {
-      image: "https://cdn.poehali.dev/files/692de6e1-c8ae-42f8-ac61-0d8770aeb8ec.png",
-      title: "Вертикальные памятники",
-      price: "от 15 000 ₽",
-      size: "100x50x5"
-    },
-    {
-      image: "https://cdn.poehali.dev/files/a6e29eb2-0f18-47ca-917e-adac360db4c3.jpeg",
-      title: "Эксклюзивные памятники",
-      price: "от 45 000 ₽",
-      size: "120x60x8"
-    },
-    {
-      image: "https://cdn.poehali.dev/files/e1b733d5-8a5c-4f60-9df4-9e05bb711cf9.jpeg",
-      title: "Комплексы на могилу",
-      price: "от 80 000 ₽",
-      size: "комплект"
-    }
-  ];
+  const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => setMonuments(data))
+      .catch(err => console.error("Error loading monuments:", err));
+  }, []);
 
   const services = [
     { icon: "Hammer", title: "Изготовление памятников", desc: "От простых до эксклюзивных" },
@@ -304,13 +302,13 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {monuments.map((item, idx) => (
               <Card 
-                key={idx}
+                key={item.id || idx}
                 className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <img 
-                    src={item.image} 
+                    src={item.image_url} 
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
