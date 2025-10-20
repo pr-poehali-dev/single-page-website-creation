@@ -18,6 +18,7 @@ const Admin = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [formData, setFormData] = useState<Monument>({
     title: "",
     image_url: "",
@@ -92,10 +93,7 @@ const Admin = () => {
     setEditingId(null);
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const uploadFile = async (file: File) => {
     if (!file.type.startsWith('image/')) {
       alert('Пожалуйста, выберите изображение');
       return;
@@ -137,6 +135,32 @@ const Admin = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    uploadFile(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      uploadFile(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-7xl mx-auto">
@@ -167,18 +191,58 @@ const Admin = () => {
                 <div>
                   <label className="block text-sm font-medium mb-2">Изображение *</label>
                   <div className="space-y-3">
-                    <div className="flex gap-2">
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        disabled={uploading}
-                        className="flex-1"
-                      />
-                      {uploading && (
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Icon name="Loader2" className="animate-spin" size={16} />
-                          Загрузка...
+                    <div 
+                      className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                        isDragging 
+                          ? 'border-primary bg-primary/5' 
+                          : 'border-border hover:border-primary/50'
+                      }`}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                    >
+                      {uploading ? (
+                        <div className="flex flex-col items-center gap-3">
+                          <Icon name="Loader2" className="animate-spin text-primary" size={40} />
+                          <p className="text-sm text-muted-foreground">Загрузка изображения...</p>
+                        </div>
+                      ) : formData.image_url ? (
+                        <div className="space-y-3">
+                          <div className="relative w-full h-48 bg-secondary rounded overflow-hidden">
+                            <img
+                              src={formData.image_url}
+                              alt="Превью"
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setFormData({ ...formData, image_url: "" })}
+                          >
+                            <Icon name="X" className="mr-2" size={16} />
+                            Удалить изображение
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <Icon name="Upload" className="mx-auto text-muted-foreground" size={48} />
+                          <div>
+                            <p className="text-sm font-medium mb-1">
+                              Перетащите изображение сюда
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              или нажмите, чтобы выбрать файл
+                            </p>
+                          </div>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            disabled={uploading}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                          />
                         </div>
                       )}
                     </div>
@@ -188,15 +252,6 @@ const Admin = () => {
                       placeholder="или вставьте URL: https://..."
                       required
                     />
-                    {formData.image_url && (
-                      <div className="relative w-full h-40 bg-secondary rounded overflow-hidden">
-                        <img
-                          src={formData.image_url}
-                          alt="Превью"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    )}
                   </div>
                 </div>
 
