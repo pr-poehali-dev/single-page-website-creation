@@ -17,6 +17,7 @@ interface Monument {
 const Admin = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState<Monument>({
     title: "",
     image_url: "",
@@ -26,6 +27,7 @@ const Admin = () => {
   });
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
+  const UPLOAD_URL = "https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb";
 
   useEffect(() => {
     fetchMonuments();
@@ -90,6 +92,51 @@ const Admin = () => {
     setEditingId(null);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Пожалуйста, выберите изображение');
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64 = event.target?.result as string;
+        const extension = file.name.split('.').pop() || 'jpg';
+
+        const response = await fetch(UPLOAD_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: base64,
+            extension: extension
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.url) {
+          setFormData({ ...formData, image_url: data.url });
+        } else {
+          alert('Ошибка загрузки изображения');
+        }
+
+        setUploading(false);
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Ошибка загрузки изображения');
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-7xl mx-auto">
@@ -118,13 +165,39 @@ const Admin = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">URL изображения *</label>
-                  <Input
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    placeholder="https://..."
-                    required
-                  />
+                  <label className="block text-sm font-medium mb-2">Изображение *</label>
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                        className="flex-1"
+                      />
+                      {uploading && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Icon name="Loader2" className="animate-spin" size={16} />
+                          Загрузка...
+                        </div>
+                      )}
+                    </div>
+                    <Input
+                      value={formData.image_url}
+                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                      placeholder="или вставьте URL: https://..."
+                      required
+                    />
+                    {formData.image_url && (
+                      <div className="relative w-full h-40 bg-secondary rounded overflow-hidden">
+                        <img
+                          src={formData.image_url}
+                          alt="Превью"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div>
