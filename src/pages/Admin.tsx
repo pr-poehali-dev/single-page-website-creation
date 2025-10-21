@@ -49,6 +49,24 @@ const Admin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Валидация обязательных полей
+    if (!formData.title.trim()) {
+      alert('❌ Пожалуйста, введите название памятника');
+      return;
+    }
+    if (!formData.image_url.trim()) {
+      alert('❌ Пожалуйста, загрузите изображение памятника');
+      return;
+    }
+    if (!formData.price.trim()) {
+      alert('❌ Пожалуйста, укажите цену');
+      return;
+    }
+    if (!formData.size.trim()) {
+      alert('❌ Пожалуйста, укажите размер');
+      return;
+    }
+
     try {
       let response;
       if (editingId) {
@@ -71,6 +89,8 @@ const Admin = () => {
         setEditingId(null);
         fetchMonuments();
       } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Server error:', errorData);
         alert('✗ Ошибка при сохранении памятника');
       }
     } catch (error) {
@@ -263,6 +283,18 @@ const Admin = () => {
                               src={formData.image_url}
                               alt="Превью"
                               className="w-full h-full object-contain"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                target.parentElement!.innerHTML = `
+                                  <div class="flex flex-col items-center justify-center h-full">
+                                    <svg class="w-12 h-12 text-muted-foreground mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                    </svg>
+                                    <p class="text-sm text-muted-foreground">Ошибка загрузки изображения</p>
+                                  </div>
+                                `;
+                              }}
                             />
                           </div>
                           <Button
@@ -365,14 +397,24 @@ const Admin = () => {
                 <Card key={monument.id} className={editingId === monument.id ? 'border-primary border-2' : ''}>
                   <CardContent className="p-4">
                     <div className="flex gap-4">
-                      <div className="relative w-24 h-24 flex-shrink-0">
+                      <div className="relative w-24 h-24 flex-shrink-0 bg-secondary rounded border-2 border-border overflow-hidden">
                         <img
                           src={monument.image_url}
                           alt={monument.title}
-                          className="w-full h-full object-cover rounded border-2 border-border"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            target.parentElement!.classList.add('flex', 'items-center', 'justify-center');
+                            target.parentElement!.innerHTML += `
+                              <svg class="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                              </svg>
+                            `;
+                          }}
                         />
                         {editingId === monument.id && (
-                          <div className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                          <div className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold z-10">
                             ✓
                           </div>
                         )}
