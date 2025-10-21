@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import Icon from "@/components/ui/icon";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ const Constructor = () => {
   const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const sizes = [
     { id: "100x50x5", label: "100×50×5 см", price: 15000 },
@@ -67,14 +69,25 @@ const Constructor = () => {
 
     setUploadError(null);
     setIsUploading(true);
+    setUploadProgress(0);
 
     try {
       const reader = new FileReader();
       
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percentLoaded = Math.round((e.loaded / e.total) * 50);
+          setUploadProgress(percentLoaded);
+        }
+      };
+      
       reader.onloadend = async () => {
         try {
+          setUploadProgress(50);
           const base64String = reader.result as string;
           const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+          
+          setUploadProgress(60);
           
           const response = await fetch('https://functions.poehali.dev/d5e51f29-af5e-4f32-926f-1cdc1a7c6a14', {
             method: 'POST',
@@ -87,24 +100,33 @@ const Constructor = () => {
             })
           });
 
+          setUploadProgress(90);
+
           if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Ошибка загрузки');
           }
 
           const data = await response.json();
+          setUploadProgress(100);
           setUploadedPhoto(data.url);
-          setIsUploading(false);
+          
+          setTimeout(() => {
+            setIsUploading(false);
+            setUploadProgress(0);
+          }, 500);
         } catch (error) {
           console.error('Upload error:', error);
           setUploadError('Не удалось загрузить фото. Попробуйте ещё раз');
           setIsUploading(false);
+          setUploadProgress(0);
         }
       };
       
       reader.onerror = () => {
         setUploadError('Не удалось прочитать файл');
         setIsUploading(false);
+        setUploadProgress(0);
       };
       
       reader.readAsDataURL(file);
@@ -113,6 +135,7 @@ const Constructor = () => {
       console.error('Upload error:', error);
       setUploadError('Не удалось загрузить фото. Попробуйте ещё раз');
       setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -333,9 +356,14 @@ const Constructor = () => {
                         }`}
                       >
                         {isUploading ? (
-                          <div className="flex flex-col items-center gap-3">
-                            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                            <p className="text-sm text-muted-foreground">Загрузка фото...</p>
+                          <div className="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
+                            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                            <div className="w-full space-y-2">
+                              <Progress value={uploadProgress} className="h-2" />
+                              <p className="text-sm text-center text-muted-foreground font-medium">
+                                Загрузка {uploadProgress}%
+                              </p>
+                            </div>
                           </div>
                         ) : (
                           <div className="flex flex-col items-center gap-3">

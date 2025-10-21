@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect } from "react";
 
@@ -18,6 +19,7 @@ const Admin = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [formData, setFormData] = useState<Monument>({
     title: "",
@@ -100,31 +102,58 @@ const Admin = () => {
     }
 
     setUploading(true);
+    setUploadProgress(0);
 
     try {
       const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64 = event.target?.result as string;
-        const extension = file.name.split('.').pop() || 'jpg';
-
-        const response = await fetch(UPLOAD_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image: base64,
-            extension: extension
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.url) {
-          setFormData({ ...formData, image_url: data.url });
-        } else {
-          alert('Ошибка загрузки изображения');
+      
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percentLoaded = Math.round((e.loaded / e.total) * 50);
+          setUploadProgress(percentLoaded);
         }
+      };
+      
+      reader.onload = async (event) => {
+        try {
+          setUploadProgress(50);
+          const base64 = event.target?.result as string;
+          const extension = file.name.split('.').pop() || 'jpg';
 
-        setUploading(false);
+          setUploadProgress(60);
+
+          const response = await fetch(UPLOAD_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image: base64,
+              extension: extension
+            })
+          });
+
+          setUploadProgress(90);
+
+          const data = await response.json();
+
+          if (data.url) {
+            setUploadProgress(100);
+            setFormData({ ...formData, image_url: data.url });
+            
+            setTimeout(() => {
+              setUploading(false);
+              setUploadProgress(0);
+            }, 500);
+          } else {
+            alert('Ошибка загрузки изображения');
+            setUploading(false);
+            setUploadProgress(0);
+          }
+        } catch (error) {
+          console.error('Upload error:', error);
+          alert('Ошибка загрузки изображения');
+          setUploading(false);
+          setUploadProgress(0);
+        }
       };
 
       reader.readAsDataURL(file);
@@ -132,6 +161,7 @@ const Admin = () => {
       console.error('Upload error:', error);
       alert('Ошибка загрузки изображения');
       setUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -202,9 +232,14 @@ const Admin = () => {
                       onDrop={handleDrop}
                     >
                       {uploading ? (
-                        <div className="flex flex-col items-center gap-3">
+                        <div className="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
                           <Icon name="Loader2" className="animate-spin text-primary" size={40} />
-                          <p className="text-sm text-muted-foreground">Загрузка изображения...</p>
+                          <div className="w-full space-y-2">
+                            <Progress value={uploadProgress} className="h-2" />
+                            <p className="text-sm text-center text-muted-foreground font-medium">
+                              Загрузка {uploadProgress}%
+                            </p>
+                          </div>
                         </div>
                       ) : formData.image_url ? (
                         <div className="space-y-3">
