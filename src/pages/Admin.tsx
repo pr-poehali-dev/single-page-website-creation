@@ -28,7 +28,7 @@ const Admin = () => {
   });
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
-  const UPLOAD_URL = "https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb";
+  const UPLOAD_URL = "https://functions.poehali.dev/d5e51f29-af5e-4f32-926f-1cdc1a7c6a14";
 
   useEffect(() => {
     fetchMonuments();
