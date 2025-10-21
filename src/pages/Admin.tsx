@@ -50,25 +50,32 @@ const Admin = () => {
     e.preventDefault();
 
     try {
+      let response;
       if (editingId) {
-        await fetch(`${API_URL}/${editingId}`, {
+        response = await fetch(`${API_URL}/${editingId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
         });
       } else {
-        await fetch(API_URL, {
+        response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
         });
       }
 
-      setFormData({ title: "", image_url: "", price: "", size: "", description: "" });
-      setEditingId(null);
-      fetchMonuments();
+      if (response.ok) {
+        alert(editingId ? '✓ Памятник успешно обновлён' : '✓ Памятник успешно добавлен');
+        setFormData({ title: "", image_url: "", price: "", size: "", description: "" });
+        setEditingId(null);
+        fetchMonuments();
+      } else {
+        alert('✗ Ошибка при сохранении памятника');
+      }
     } catch (error) {
       console.error("Error saving monument:", error);
+      alert('✗ Ошибка при сохранении памятника');
     }
   };
 
@@ -78,15 +85,23 @@ const Admin = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Удалить этот памятник?")) return;
+    const monument = monuments.find(m => m.id === id);
+    if (!confirm(`Вы уверены, что хотите удалить памятник "${monument?.title}"?\n\nЭто действие нельзя отменить.`)) return;
 
     try {
-      await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE"
       });
-      fetchMonuments();
+      
+      if (response.ok) {
+        alert('✓ Памятник успешно удалён');
+        fetchMonuments();
+      } else {
+        alert('✗ Ошибка при удалении памятника');
+      }
     } catch (error) {
       console.error("Error deleting monument:", error);
+      alert('✗ Ошибка при удалении памятника');
     }
   };
 
@@ -337,43 +352,72 @@ const Admin = () => {
 
           <div className="space-y-4">
             <h2 className="font-oswald font-bold text-2xl">Список памятников</h2>
-            {monuments.map((monument) => (
-              <Card key={monument.id}>
-                <CardContent className="p-4">
-                  <div className="flex gap-4">
-                    <img
-                      src={monument.image_url}
-                      alt={monument.title}
-                      className="w-24 h-24 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-oswald font-bold text-lg">{monument.title}</h3>
-                      <p className="text-sm text-muted-foreground">Цена: {monument.price}</p>
-                      <p className="text-sm text-muted-foreground">Размер: {monument.size}</p>
-                      {monument.description && (
-                        <p className="text-sm mt-1">{monument.description}</p>
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEdit(monument)}
-                      >
-                        <Icon name="Edit" size={16} />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(monument.id!)}
-                      >
-                        <Icon name="Trash2" size={16} />
-                      </Button>
-                    </div>
-                  </div>
+            {monuments.length === 0 ? (
+              <Card className="border-dashed">
+                <CardContent className="p-12 text-center">
+                  <Icon name="Package" size={48} className="mx-auto text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground mb-2">Пока нет памятников в каталоге</p>
+                  <p className="text-sm text-muted-foreground">Добавьте первый памятник через форму слева</p>
                 </CardContent>
               </Card>
-            ))}
+            ) : (
+              monuments.map((monument) => (
+                <Card key={monument.id} className={editingId === monument.id ? 'border-primary border-2' : ''}>
+                  <CardContent className="p-4">
+                    <div className="flex gap-4">
+                      <div className="relative w-24 h-24 flex-shrink-0">
+                        <img
+                          src={monument.image_url}
+                          alt={monument.title}
+                          className="w-full h-full object-cover rounded border-2 border-border"
+                        />
+                        {editingId === monument.id && (
+                          <div className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                            ✓
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-oswald font-bold text-lg mb-1 truncate">{monument.title}</h3>
+                        <div className="space-y-1">
+                          <p className="text-sm text-muted-foreground flex items-center gap-2">
+                            <Icon name="DollarSign" size={14} />
+                            {monument.price}
+                          </p>
+                          <p className="text-sm text-muted-foreground flex items-center gap-2">
+                            <Icon name="Maximize2" size={14} />
+                            {monument.size}
+                          </p>
+                        </div>
+                        {monument.description && (
+                          <p className="text-sm mt-2 text-muted-foreground line-clamp-2">{monument.description}</p>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-2 flex-shrink-0">
+                        <Button
+                          size="sm"
+                          variant={editingId === monument.id ? "default" : "outline"}
+                          onClick={() => handleEdit(monument)}
+                          className="min-w-[100px]"
+                        >
+                          <Icon name="Edit" size={16} className="mr-2" />
+                          Изменить
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDelete(monument.id!)}
+                          className="min-w-[100px]"
+                        >
+                          <Icon name="Trash2" size={16} className="mr-2" />
+                          Удалить
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </div>
