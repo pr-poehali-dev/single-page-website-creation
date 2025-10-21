@@ -89,7 +89,7 @@ const Constructor = () => {
           
           setUploadProgress(60);
           
-          const response = await fetch('https://functions.poehali.dev/d5e51f29-af5e-4f32-926f-1cdc1a7c6a14', {
+          const response = await fetch('https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

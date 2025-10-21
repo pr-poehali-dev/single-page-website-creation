@@ -53,42 +53,59 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'body': json.dumps({'error': 'No image provided'})
             }
         
+        original_image = image_base64
         if ',' in image_base64:
             image_base64 = image_base64.split(',')[1]
         
-        image_data = base64.b64decode(image_base64)
+        s3_access_key = os.environ.get('S3_ACCESS_KEY')
+        s3_secret_key = os.environ.get('S3_SECRET_KEY')
         
-        file_id = str(uuid.uuid4())
-        file_name = f"{file_id}.{file_extension}"
-        
-        s3_client = boto3.client(
-            's3',
-            endpoint_url='https://storage.yandexcloud.net',
-            aws_access_key_id=os.environ.get('S3_ACCESS_KEY'),
-            aws_secret_access_key=os.environ.get('S3_SECRET_KEY'),
-            config=Config(signature_version='s3v4'),
-            region_name='ru-central1'
-        )
-        
-        bucket_name = 'poehali-cdn'
-        
-        content_type_map = {
-            'jpg': 'image/jpeg',
-            'jpeg': 'image/jpeg',
-            'png': 'image/png',
-            'gif': 'image/gif',
-            'webp': 'image/webp'
-        }
-        
-        s3_client.put_object(
-            Bucket=bucket_name,
-            Key=f'files/{file_name}',
-            Body=image_data,
-            ContentType=content_type_map.get(file_extension, 'image/jpeg'),
-            ACL='public-read'
-        )
-        
-        image_url = f'https://cdn.poehali.dev/files/{file_name}'
+        if s3_access_key and s3_secret_key:
+            image_data = base64.b64decode(image_base64)
+            
+            file_id = str(uuid.uuid4())
+            file_name = f"{file_id}.{file_extension}"
+            
+            s3_client = boto3.client(
+                's3',
+                endpoint_url='https://storage.yandexcloud.net',
+                aws_access_key_id=s3_access_key,
+                aws_secret_access_key=s3_secret_key,
+                config=Config(signature_version='s3v4'),
+                region_name='ru-central1'
+            )
+            
+            bucket_name = 'poehali-cdn'
+            
+            content_type_map = {
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'gif': 'image/gif',
+                'webp': 'image/webp'
+            }
+            
+            s3_client.put_object(
+                Bucket=bucket_name,
+                Key=f'files/{file_name}',
+                Body=image_data,
+                ContentType=content_type_map.get(file_extension, 'image/jpeg'),
+                ACL='public-read'
+            )
+            
+            image_url = f'https://cdn.poehali.dev/files/{file_name}'
+        else:
+            file_id = str(uuid.uuid4())
+            content_type_map = {
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'gif': 'image/gif',
+                'webp': 'image/webp',
+                'heic': 'image/heic'
+            }
+            mime_type = content_type_map.get(file_extension, 'image/jpeg')
+            image_url = f'data:{mime_type};base64,{image_base64}'
         
         return {
             'statusCode': 200,
