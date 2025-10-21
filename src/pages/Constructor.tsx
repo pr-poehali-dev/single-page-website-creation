@@ -69,24 +69,49 @@ const Constructor = () => {
     setIsUploading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      const reader = new FileReader();
+      
+      reader.onloadend = async () => {
+        try {
+          const base64String = reader.result as string;
+          const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+          
+          const response = await fetch('https://functions.poehali.dev/d5e51f29-af5e-4f32-926f-1cdc1a7c6a14', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              image: base64String,
+              extension: extension
+            })
+          });
 
-      const response = await fetch('https://api.poehali.dev/storage/upload', {
-        method: 'POST',
-        body: formData,
-      });
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Ошибка загрузки');
+          }
 
-      if (!response.ok) {
-        throw new Error('Ошибка загрузки');
-      }
-
-      const data = await response.json();
-      setUploadedPhoto(data.url);
+          const data = await response.json();
+          setUploadedPhoto(data.url);
+          setIsUploading(false);
+        } catch (error) {
+          console.error('Upload error:', error);
+          setUploadError('Не удалось загрузить фото. Попробуйте ещё раз');
+          setIsUploading(false);
+        }
+      };
+      
+      reader.onerror = () => {
+        setUploadError('Не удалось прочитать файл');
+        setIsUploading(false);
+      };
+      
+      reader.readAsDataURL(file);
+      
     } catch (error) {
       console.error('Upload error:', error);
       setUploadError('Не удалось загрузить фото. Попробуйте ещё раз');
-    } finally {
       setIsUploading(false);
     }
   };
