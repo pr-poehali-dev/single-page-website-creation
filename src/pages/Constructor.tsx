@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Constructor = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [selectedSize, setSelectedSize] = useState("100x50x5");
   const [selectedColor, setSelectedColor] = useState("black");
@@ -13,6 +14,9 @@ const Constructor = () => {
   const [selectedDecor, setSelectedDecor] = useState<string[]>([]);
   const [hasOgrada, setHasOgrada] = useState(false);
   const [hasCvetnik, setHasCvetnik] = useState(false);
+  const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const sizes = [
     { id: "100x50x5", label: "100×50×5 см", price: 15000 },
@@ -45,6 +49,46 @@ const Constructor = () => {
     setSelectedDecor(prev => 
       prev.includes(id) ? prev.filter(d => d !== id) : [...prev, id]
     );
+  };
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Пожалуйста, выберите изображение');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError('Файл слишком большой. Максимум 10 МБ');
+      return;
+    }
+
+    setUploadError(null);
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('https://api.poehali.dev/storage/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка загрузки');
+      }
+
+      const data = await response.json();
+      setUploadedPhoto(data.url);
+    } catch (error) {
+      console.error('Upload error:', error);
+      setUploadError('Не удалось загрузить фото. Попробуйте ещё раз');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const calculatePrice = () => {
@@ -199,6 +243,110 @@ const Constructor = () => {
                       <div className="font-oswald font-semibold text-lg text-left">{color.label}</div>
                     </button>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Загрузка фото */}
+            <Card className="bg-card border-border">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Icon name="Image" size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="font-oswald font-bold text-2xl">Фотография для портрета</h2>
+                    <p className="text-sm text-muted-foreground">Загрузите фото для гравировки на памятнике</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {uploadedPhoto ? (
+                    <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
+                      <img 
+                        src={uploadedPhoto} 
+                        alt="Загруженное фото" 
+                        className="w-full h-64 object-cover"
+                      />
+                      <div className="absolute top-2 right-2 flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="bg-background/90 backdrop-blur"
+                          onClick={() => {
+                            setUploadedPhoto(null);
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                        >
+                          <Icon name="X" size={16} className="mr-1" />
+                          Удалить
+                        </Button>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                        <p className="text-white text-sm flex items-center gap-2">
+                          <Icon name="CheckCircle" size={16} className="text-green-400" />
+                          Фото успешно загружено
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileSelect}
+                        className="hidden"
+                        id="photo-upload"
+                      />
+                      <label
+                        htmlFor="photo-upload"
+                        className={`flex flex-col items-center justify-center h-64 border-2 border-dashed rounded-lg cursor-pointer transition-all ${
+                          isUploading 
+                            ? 'border-primary bg-primary/5' 
+                            : 'border-border hover:border-primary hover:bg-secondary/50'
+                        }`}
+                      >
+                        {isUploading ? (
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                            <p className="text-sm text-muted-foreground">Загрузка фото...</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                              <Icon name="Upload" size={28} className="text-primary" />
+                            </div>
+                            <div className="text-center">
+                              <p className="font-semibold mb-1">Нажмите для выбора фото</p>
+                              <p className="text-sm text-muted-foreground">или перетащите файл сюда</p>
+                              <p className="text-xs text-muted-foreground mt-2">Максимум 10 МБ • JPG, PNG, HEIC</p>
+                            </div>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                  )}
+
+                  {uploadError && (
+                    <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                      <Icon name="AlertCircle" size={18} className="text-red-500" />
+                      <p className="text-sm text-red-500">{uploadError}</p>
+                    </div>
+                  )}
+
+                  <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
+                    <p className="text-sm font-semibold flex items-center gap-2">
+                      <Icon name="Info" size={16} className="text-primary" />
+                      Рекомендации для фото:
+                    </p>
+                    <ul className="text-sm text-muted-foreground space-y-1 ml-6">
+                      <li>• Хорошее освещение и чёткость</li>
+                      <li>• Лицо анфас, без солнцезащитных очков</li>
+                      <li>• Высокое разрешение (минимум 1200×1600 px)</li>
+                      <li>• Наши специалисты бесплатно отретушируют фото</li>
+                    </ul>
+                  </div>
                 </div>
               </CardContent>
             </Card>
