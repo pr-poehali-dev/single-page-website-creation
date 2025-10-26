@@ -341,10 +341,10 @@ const Index = () => {
                     <h3 className="font-oswald font-semibold text-xl mb-1">{item.title}</h3>
                     <div className="text-sm text-muted-foreground mb-4">{item.size}</div>
                     <div className="flex flex-col gap-3">
-                      <span className="font-oswald text-2xl text-[#B8860B]">{item.price}</span>
+                      <span className="font-oswald text-2xl text-[#f59f0a]">{item.price}</span>
                       <Button 
                         size="lg"
-                        className="w-full bg-[#B8860B] hover:bg-[#9A7209] text-white font-oswald"
+                        className="w-full bg-[#f59f0a] hover:bg-[#d88a09] text-white font-oswald"
                         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         Подробнее
