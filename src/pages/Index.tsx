@@ -102,7 +102,7 @@ const Index = () => {
         {/* Фоновое изображение */}
         <div className="absolute inset-0 opacity-20">
           <img 
-            src="https://cdn.poehali.dev/files/8250ec23-b3d9-4d40-8aad-d4400cf81768.PNG"
+            src="https://cdn.poehali.dev/files/c8c3993f-69b4-4688-8854-68bd77a7b5e9.png"
             alt="Памятник фон"
             className="w-full h-full object-contain object-right"
           />
