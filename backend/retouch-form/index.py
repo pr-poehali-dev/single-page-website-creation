@@ -57,10 +57,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             }
         
         # Parse multipart form data using python-multipart library
-        content_type = event.get('headers', {}).get('content-type', '')
+        headers = event.get('headers', {})
+        # Headers can be lowercase or mixed case
+        content_type = headers.get('content-type') or headers.get('Content-Type', '')
         body = event.get('body', '')
         is_base64 = event.get('isBase64Encoded', False)
         
+        print(f"All headers: {headers}")
         print(f"Content-Type: {content_type}, Is Base64: {is_base64}")
         
         if is_base64:
