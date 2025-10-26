@@ -154,13 +154,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         elif method == 'DELETE':
             monument_id = event.get('queryStringParameters', {}).get('id')
             
+            print(f"DELETE request for monument ID: {monument_id}")
+            
             if not monument_id:
+                print("Error: No monument ID provided")
                 return {
                     'statusCode': 400,
                     'headers': headers,
                     'body': json.dumps({'error': 'Monument ID required'})
                 }
             
+            print(f"Executing DELETE query for ID: {monument_id}")
             cursor.execute(
                 "DELETE FROM t_p78642605_single_page_website_.monuments WHERE id = %s RETURNING id",
                 (monument_id,)
@@ -169,13 +173,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             deleted = cursor.fetchone()
             conn.commit()
             
+            print(f"Delete result: {deleted}")
+            
             if not deleted:
+                print(f"Monument with ID {monument_id} not found")
                 return {
                     'statusCode': 404,
                     'headers': headers,
                     'body': json.dumps({'error': 'Monument not found'})
                 }
             
+            print(f"Monument {monument_id} successfully deleted")
             return {
                 'statusCode': 200,
                 'headers': headers,

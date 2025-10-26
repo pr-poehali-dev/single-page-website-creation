@@ -117,11 +117,13 @@ const Admin = () => {
         alert('✓ Памятник успешно удалён');
         fetchMonuments();
       } else {
-        alert('✗ Ошибка при удалении памятника');
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Delete error:', errorData);
+        alert(`✗ Ошибка при удалении: ${errorData.error || 'Неизвестная ошибка'}`);
       }
     } catch (error) {
       console.error("Error deleting monument:", error);
-      alert('✗ Ошибка при удалении памятника');
+      alert(`✗ Ошибка при удалении: ${error}`);
     }
   };
 
