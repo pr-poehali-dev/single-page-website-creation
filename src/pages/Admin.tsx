@@ -104,7 +104,6 @@ const Admin = () => {
   };
 
   const handleEdit = (monument: Monument) => {
-    console.log('Edit clicked:', monument);
     setFormData(monument);
     setEditingId(monument.id || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
