@@ -22,6 +22,7 @@ const Admin = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [filterCategory, setFilterCategory] = useState<string>("Все");
   const [formData, setFormData] = useState<Monument>({
     title: "",
     image_url: "",
@@ -32,6 +33,7 @@ const Admin = () => {
   });
 
   const categories = ["Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
+  const filterCategories = ["Все", ...categories];
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
   const UPLOAD_URL = "https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb";
@@ -412,7 +414,24 @@ const Admin = () => {
           </Card>
 
           <div className="space-y-4">
-            <h2 className="font-oswald font-bold text-2xl">Список памятников</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="font-oswald font-bold text-2xl">Список памятников</h2>
+              <div className="flex gap-2">
+                {filterCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilterCategory(cat)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      filterCategory === cat
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-secondary text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
             {monuments.length === 0 ? (
               <Card className="border-dashed">
                 <CardContent className="p-12 text-center">
@@ -422,7 +441,9 @@ const Admin = () => {
                 </CardContent>
               </Card>
             ) : (
-              monuments.map((monument) => (
+              monuments
+                .filter(m => filterCategory === "Все" || m.category === filterCategory)
+                .map((monument) => (
                 <Card key={monument.id} className={editingId === monument.id ? 'border-primary border-2' : ''}>
                   <CardContent className="p-4">
                     <div className="flex gap-4">
