@@ -398,35 +398,6 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
-              Почему выбирают нас
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Профессионализм и качество проверенные временем
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {advantages.map((adv, idx) => (
-              <div 
-                key={idx} 
-                className="text-center animate-fade-in"
-                style={{ animationDelay: `${idx * 0.1}s` }}
-              >
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name={adv.icon as any} className="text-primary" size={40} />
-                </div>
-                <h3 className="font-oswald font-semibold text-xl mb-2">{adv.title}</h3>
-                <div className="text-muted-foreground text-sm">{adv.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -672,6 +643,35 @@ const Index = () => {
               <Icon name="Phone" className="mr-2" size={20} />
               ОБСУДИТЬ ВАШ ПРОЕКТ
             </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
+              Почему выбирают нас
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Профессионализм и качество проверенные временем
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {advantages.map((adv, idx) => (
+              <div 
+                key={idx} 
+                className="text-center animate-fade-in"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name={adv.icon as any} className="text-primary" size={40} />
+                </div>
+                <h3 className="font-oswald font-semibold text-xl mb-2">{adv.title}</h3>
+                <div className="text-muted-foreground text-sm">{adv.desc}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
