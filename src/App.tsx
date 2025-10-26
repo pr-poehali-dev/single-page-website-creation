@@ -47,20 +47,28 @@ const NavigationBar = () => {
   );
 };
 
+const AppContent = () => {
+  return (
+    <>
+      <NavigationBar />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/constructor" element={<Constructor />} />
+        <Route path="/admin" element={<Admin />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <NavigationBar />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/constructor" element={<Constructor />} />
-          <Route path="/admin" element={<Admin />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
