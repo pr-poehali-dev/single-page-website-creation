@@ -104,6 +104,7 @@ const Admin = () => {
   };
 
   const handleEdit = (monument: Monument) => {
+    alert(`Редактирование: ${monument.title}`);
     setFormData(monument);
     setEditingId(monument.id || null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
