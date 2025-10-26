@@ -410,8 +410,9 @@ const Admin = () => {
               </form>
             </CardContent>
           </Card>
+        </div>
 
-          <div className="space-y-4">
+        <div className="space-y-4 max-w-6xl mx-auto mt-8">
             <h2 className="font-oswald font-bold text-2xl">Список памятников</h2>
             {monuments.length === 0 ? (
               <Card className="border-dashed">
@@ -495,7 +496,6 @@ const Admin = () => {
                 </Card>
               ))
             )}
-          </div>
         </div>
       </div>
     </div>
