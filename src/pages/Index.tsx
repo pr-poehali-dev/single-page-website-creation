@@ -83,7 +83,7 @@ const Index = () => {
               <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
             </div>
             <div className="flex items-center gap-3">
-              <a href="tel:+79960681168" className="flex items-center gap-1.5 font-oswald font-bold text-base hover:text-primary transition-colors whitespace-nowrap">
+              <a href="tel:+79960681168" className="hidden lg:flex items-center gap-1.5 font-oswald font-bold text-base hover:text-primary transition-colors whitespace-nowrap">
                 <Icon name="Phone" size={18} />
                 8 (996) 068-11-68
               </a>
@@ -93,6 +93,15 @@ const Index = () => {
               <a href="https://t.me/79960681168" target="_blank" rel="noopener noreferrer" className="p-2 bg-[#0088cc] hover:bg-[#006699] text-white rounded-lg transition-colors">
                 <Icon name="Send" size={18} />
               </a>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/admin')}
+                className="gap-2"
+              >
+                <Icon name="Lock" size={16} />
+                <span className="hidden md:inline">Админ</span>
+              </Button>
             </div>
           </div>
         </div>
