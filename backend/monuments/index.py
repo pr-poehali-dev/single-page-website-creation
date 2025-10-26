@@ -84,6 +84,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             image_url = body_data.get('image_url')
             price = body_data.get('price')
             size = body_data.get('size')
+            category = body_data.get('category', 'Стандартные')
             
             if not all([title, image_url, price, size]):
                 return {
@@ -95,11 +96,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             cursor.execute(
                 """
-                INSERT INTO t_p78642605_single_page_website_.monuments (title, image_url, price, size)
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO t_p78642605_single_page_website_.monuments (title, image_url, price, size, category)
+                VALUES (%s, %s, %s, %s, %s)
                 RETURNING *
                 """,
-                (title, image_url, price, size)
+                (title, image_url, price, size, category)
             )
             
             new_monument = cursor.fetchone()
@@ -128,7 +129,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             cursor.execute(
                 """
                 UPDATE t_p78642605_single_page_website_.monuments 
-                SET title = %s, image_url = %s, price = %s, size = %s, 
+                SET title = %s, image_url = %s, price = %s, size = %s, category = %s,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = %s
                 RETURNING *
@@ -138,6 +139,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     body_data.get('image_url'),
                     body_data.get('price'),
                     body_data.get('size'),
+                    body_data.get('category', 'Стандартные'),
                     monument_id
                 )
             )

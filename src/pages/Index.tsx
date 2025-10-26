@@ -13,6 +13,7 @@ interface Monument {
   title: string;
   price: string;
   size: string;
+  category?: string;
   description?: string;
 }
 
@@ -32,6 +33,10 @@ const Index = () => {
   }, []);
 
   const categories = ["Все", "Стандартные", "Премиум", "Эксклюзивные"];
+
+  const filteredMonuments = activeCategory === "Все" 
+    ? monuments 
+    : monuments.filter(m => m.category === activeCategory);
 
   const services = [
     { icon: "Hammer", title: "Изготовление памятников", desc: "От простых до эксклюзивных" },
@@ -326,7 +331,7 @@ const Index = () => {
 
           {/* Карточки товаров - сетка 4 колонки */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {monuments.map((item, idx) => (
+            {filteredMonuments.map((item, idx) => (
               <Card 
                 key={item.id || idx}
                 className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group"

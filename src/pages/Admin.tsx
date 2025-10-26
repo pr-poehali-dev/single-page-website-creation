@@ -12,6 +12,7 @@ interface Monument {
   image_url: string;
   price: string;
   size: string;
+  category?: string;
   description?: string;
 }
 
@@ -26,8 +27,11 @@ const Admin = () => {
     image_url: "",
     price: "",
     size: "",
+    category: "Стандартные",
     description: ""
   });
+
+  const categories = ["Стандартные", "Премиум", "Эксклюзивные"];
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
   const UPLOAD_URL = "https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb";
@@ -85,7 +89,7 @@ const Admin = () => {
 
       if (response.ok) {
         alert(editingId ? '✓ Памятник успешно обновлён' : '✓ Памятник успешно добавлен');
-        setFormData({ title: "", image_url: "", price: "", size: "", description: "" });
+        setFormData({ title: "", image_url: "", price: "", size: "", category: "Стандартные", description: "" });
         setEditingId(null);
         fetchMonuments();
       } else {
@@ -369,6 +373,20 @@ const Admin = () => {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium mb-2">Категория *</label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    required
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium mb-2">Описание</label>
                   <Textarea
                     value={formData.description}
@@ -441,6 +459,12 @@ const Admin = () => {
                             <Icon name="Maximize2" size={14} />
                             {monument.size}
                           </p>
+                          {monument.category && (
+                            <p className="text-sm text-primary font-medium flex items-center gap-2">
+                              <Icon name="Tag" size={14} />
+                              {monument.category}
+                            </p>
+                          )}
                         </div>
                         {monument.description && (
                           <p className="text-sm mt-2 text-muted-foreground line-clamp-2">{monument.description}</p>
