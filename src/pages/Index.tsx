@@ -438,24 +438,24 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="X" size={14} className="text-destructive" />
                         </div>
                         Трещины и повреждения
-                      </p>
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="X" size={14} className="text-destructive" />
                         </div>
                         Низкая контрастность
-                      </p>
-                      <p className="flex items-center gap-2 text-muted-foreground">
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="w-5 h-5 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
                           <Icon name="X" size={14} className="text-destructive" />
                         </div>
                         Выцветшие участки
-                      </p>
+                      </div>
                     </div>
                   </div>
 
