@@ -330,11 +330,11 @@ const Index = () => {
                   key={item.id || idx}
                   className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group md:flex-shrink-0 md:w-[300px] md:snap-start"
                 >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary flex items-center justify-center">
                     <img 
                       src={item.image_url} 
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <CardContent className="p-3 md:p-6">
