@@ -20,6 +20,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
   const [monuments, setMonuments] = useState<Monument[]>([]);
+  const [activeCategory, setActiveCategory] = useState("Все");
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
@@ -29,6 +30,8 @@ const Index = () => {
       .then(data => setMonuments(data))
       .catch(err => console.error("Error loading monuments:", err));
   }, []);
+
+  const categories = ["Все", "Стандартные", "Премиум", "Эксклюзивные"];
 
   const services = [
     { icon: "Hammer", title: "Изготовление памятников", desc: "От простых до эксклюзивных" },
@@ -291,57 +294,66 @@ const Index = () => {
 
       <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
               Каталог памятников
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Выберите готовый вариант или закажите индивидуальный проект
+              Готовые решения для разных бюджетов
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {monuments.map((item, idx) => (
-              <Card 
-                key={item.id || idx}
-                className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group animate-fade-in"
-                style={{ animationDelay: `${idx * 0.1}s` }}
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img 
-                    src={item.image_url} 
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-oswald font-semibold text-xl mb-2">{item.title}</h3>
-                  <div className="text-sm text-muted-foreground mb-4">Размер: {item.size} см</div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-oswald text-2xl text-primary">{item.price}</span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="font-oswald"
-                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                    >
-                      Заказать
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          {/* Категории фильтров */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex bg-secondary rounded-lg p-1 gap-1">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-6 md:px-12 py-3 rounded-md font-oswald font-medium transition-all ${
+                    activeCategory === category
+                      ? 'bg-card text-foreground shadow-md'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="font-oswald"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              СМОТРЕТЬ ВЕСЬ КАТАЛОГ
-            </Button>
+          {/* Горизонтальный скролл карточек */}
+          <div className="relative">
+            <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+              {monuments.map((item, idx) => (
+                <Card 
+                  key={item.id || idx}
+                  className="flex-shrink-0 w-[300px] bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group snap-start"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                    <img 
+                      src={item.image_url} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <CardContent className="p-6">
+                    <h3 className="font-oswald font-semibold text-xl mb-1">{item.title}</h3>
+                    <div className="text-sm text-muted-foreground mb-4">{item.size}</div>
+                    <div className="flex flex-col gap-3">
+                      <span className="font-oswald text-2xl text-[#B8860B]">{item.price}</span>
+                      <Button 
+                        size="lg"
+                        className="w-full bg-[#B8860B] hover:bg-[#9A7209] text-white font-oswald"
+                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      >
+                        Подробнее
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
