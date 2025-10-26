@@ -106,9 +106,6 @@ const Admin = () => {
   const handleEdit = (monument: Monument) => {
     setFormData(monument);
     setEditingId(monument.id || null);
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
   };
 
   const handleDelete = async (id: number) => {
@@ -252,7 +249,7 @@ const Admin = () => {
           <p className="text-muted-foreground">Управление каталогом памятников</p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8">
           <Card>
             <CardHeader>
               <CardTitle className="font-oswald">
@@ -413,9 +410,8 @@ const Admin = () => {
               </form>
             </CardContent>
           </Card>
-        </div>
 
-        <div className="space-y-4 max-w-6xl mx-auto mt-8">
+          <div className="space-y-4">
             <h2 className="font-oswald font-bold text-2xl">Список памятников</h2>
             {monuments.length === 0 ? (
               <Card className="border-dashed">
@@ -499,6 +495,7 @@ const Admin = () => {
                 </Card>
               ))
             )}
+          </div>
         </div>
       </div>
     </div>
