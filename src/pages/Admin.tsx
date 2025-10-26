@@ -249,7 +249,7 @@ const Admin = () => {
           <p className="text-muted-foreground">Управление каталогом памятников</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="max-w-2xl mx-auto">
           <Card>
             <CardHeader>
               <CardTitle className="font-oswald">
