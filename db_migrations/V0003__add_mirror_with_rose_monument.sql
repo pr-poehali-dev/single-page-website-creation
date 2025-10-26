@@ -1,0 +1,2 @@
+INSERT INTO t_p78642605_single_page_website_.monuments (title, image_url, price, size) 
+VALUES ('Зеркало с розой', 'https://cdn.poehali.dev/files/754eea20-b557-4dff-8a05-5cf03586eb66.jpg', 'от 50 000 ₽', '100x50x7');
