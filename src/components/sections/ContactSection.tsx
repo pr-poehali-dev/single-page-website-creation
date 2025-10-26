@@ -12,7 +12,7 @@ const ContactSection = () => {
     e.preventDefault();
     
     const message = `Новая заявка с сайта%0A%0AИмя: ${formData.name}%0AТелефон: ${formData.phone}%0AСообщение: ${formData.message || 'не указано'}`;
-    const whatsappUrl = `https://wa.me/79371686766?text=${message}`;
+    const whatsappUrl = `https://wa.me/79960681168?text=${message}`;
     
     window.open(whatsappUrl, '_blank');
   };
