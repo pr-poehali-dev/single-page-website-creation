@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import PortraitSection from "@/components/sections/PortraitSection";
 import RetouchForm from "@/components/RetouchForm";
 
 interface Monument {
@@ -289,8 +288,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      <PortraitSection />
 
       <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
