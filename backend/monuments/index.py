@@ -27,6 +27,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
                 'Access-Control-Max-Age': '86400'
             },
+            'isBase64Encoded': False,
             'body': ''
         }
     
@@ -53,12 +54,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     return {
                         'statusCode': 404,
                         'headers': headers,
+                        'isBase64Encoded': False,
                         'body': json.dumps({'error': 'Monument not found'})
                     }
                 
                 return {
                     'statusCode': 200,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps(dict(monument))
                 }
             else:
@@ -70,6 +73,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 200,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps([dict(m) for m in monuments], default=str)
                 }
         
@@ -85,6 +89,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 400,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps({'error': 'Missing required fields'})
                 }
             
@@ -103,6 +108,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return {
                 'statusCode': 201,
                 'headers': headers,
+                'isBase64Encoded': False,
                 'body': json.dumps(dict(new_monument), default=str)
             }
         
@@ -113,6 +119,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 400,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps({'error': 'Monument ID required'})
                 }
             
@@ -142,12 +149,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 404,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps({'error': 'Monument not found'})
                 }
             
             return {
                 'statusCode': 200,
                 'headers': headers,
+                'isBase64Encoded': False,
                 'body': json.dumps(dict(updated_monument), default=str)
             }
         
@@ -161,6 +170,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 400,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps({'error': 'Monument ID required'})
                 }
             
@@ -180,6 +190,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 return {
                     'statusCode': 404,
                     'headers': headers,
+                    'isBase64Encoded': False,
                     'body': json.dumps({'error': 'Monument not found'})
                 }
             
@@ -187,6 +198,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return {
                 'statusCode': 200,
                 'headers': headers,
+                'isBase64Encoded': False,
                 'body': json.dumps({'message': 'Monument deleted successfully'})
             }
         
@@ -194,6 +206,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             return {
                 'statusCode': 405,
                 'headers': headers,
+                'isBase64Encoded': False,
                 'body': json.dumps({'error': 'Method not allowed'})
             }
     
@@ -201,6 +214,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         return {
             'statusCode': 500,
             'headers': headers,
+            'isBase64Encoded': False,
             'body': json.dumps({'error': str(e)})
         }
     
