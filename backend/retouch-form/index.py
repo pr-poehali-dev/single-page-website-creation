@@ -150,7 +150,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'isBase64Encoded': False
             }
         
-        telegram_api_url = f'https://api.telegram.org/bot{bot_token}/sendPhoto'
+        # Send as document to preserve quality (no compression)
+        telegram_api_url = f'https://api.telegram.org/bot{bot_token}/sendDocument'
         
         caption = f"""🖼 Новая заявка на ретушь фото
 
@@ -158,10 +159,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 📞 Телефон: {phone}
 💬 Комментарий: {comment}"""
         
-        files = {'photo': (photo_filename, photo_data, 'image/jpeg')}
+        # Determine MIME type from filename
+        mime_type = 'image/jpeg'
+        if photo_filename.lower().endswith('.png'):
+            mime_type = 'image/png'
+        elif photo_filename.lower().endswith('.heic'):
+            mime_type = 'image/heic'
+        
+        files = {'document': (photo_filename, photo_data, mime_type)}
         data = {'chat_id': chat_id, 'caption': caption}
         
-        print(f"Sending to Telegram: {telegram_api_url}")
+        print(f"Sending to Telegram as document: {telegram_api_url}")
         response = requests.post(telegram_api_url, files=files, data=data, timeout=30)
         result = response.json()
         
