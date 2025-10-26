@@ -44,7 +44,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             if monument_id:
                 cursor.execute(
-                    "SELECT * FROM monuments WHERE id = %s",
+                    "SELECT * FROM t_p78642605_single_page_website_.monuments WHERE id = %s",
                     (monument_id,)
                 )
                 monument = cursor.fetchone()
@@ -63,7 +63,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             else:
                 cursor.execute(
-                    "SELECT * FROM monuments ORDER BY created_at DESC"
+                    "SELECT * FROM t_p78642605_single_page_website_.monuments ORDER BY created_at DESC"
                 )
                 monuments = cursor.fetchall()
                 
@@ -80,7 +80,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             image_url = body_data.get('image_url')
             price = body_data.get('price')
             size = body_data.get('size')
-            description = body_data.get('description', '')
             
             if not all([title, image_url, price, size]):
                 return {
@@ -91,11 +90,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             cursor.execute(
                 """
-                INSERT INTO monuments (title, image_url, price, size, description)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO t_p78642605_single_page_website_.monuments (title, image_url, price, size)
+                VALUES (%s, %s, %s, %s)
                 RETURNING *
                 """,
-                (title, image_url, price, size, description)
+                (title, image_url, price, size)
             )
             
             new_monument = cursor.fetchone()
@@ -121,9 +120,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             cursor.execute(
                 """
-                UPDATE monuments 
+                UPDATE t_p78642605_single_page_website_.monuments 
                 SET title = %s, image_url = %s, price = %s, size = %s, 
-                    description = %s, updated_at = CURRENT_TIMESTAMP
+                    updated_at = CURRENT_TIMESTAMP
                 WHERE id = %s
                 RETURNING *
                 """,
@@ -132,7 +131,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     body_data.get('image_url'),
                     body_data.get('price'),
                     body_data.get('size'),
-                    body_data.get('description', ''),
                     monument_id
                 )
             )
@@ -164,7 +162,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             
             cursor.execute(
-                "DELETE FROM monuments WHERE id = %s RETURNING id",
+                "DELETE FROM t_p78642605_single_page_website_.monuments WHERE id = %s RETURNING id",
                 (monument_id,)
             )
             
