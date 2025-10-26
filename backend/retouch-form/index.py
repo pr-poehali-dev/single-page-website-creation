@@ -4,7 +4,7 @@ import base64
 from typing import Dict, Any
 import requests
 from io import BytesIO
-from multipart.multipart import parse_options_header, MultipartParser
+from multipart.multipart import MultipartParser
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -71,9 +71,14 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         else:
             body_bytes = body.encode('utf-8') if isinstance(body, str) else body
         
-        # Extract boundary from Content-Type
-        _, options = parse_options_header(content_type)
-        boundary = options.get(b'boundary')
+        # Extract boundary from Content-Type manually
+        # Example: multipart/form-data; boundary=----WebKitFormBoundary...
+        boundary = None
+        if 'boundary=' in content_type:
+            boundary = content_type.split('boundary=')[1].strip()
+            if boundary.startswith('"') and boundary.endswith('"'):
+                boundary = boundary[1:-1]
+            boundary = boundary.encode('utf-8')
         
         if not boundary:
             return {
@@ -85,6 +90,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'body': json.dumps({'success': False, 'error': 'No boundary in Content-Type'}),
                 'isBase64Encoded': False
             }
+        
+        print(f"Extracted boundary: {boundary}")
         
         # Parse form data
         form_data = {}
