@@ -6,6 +6,7 @@ import Icon from "@/components/ui/icon";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PortraitSection from "@/components/sections/PortraitSection";
+import RetouchForm from "@/components/RetouchForm";
 
 interface Monument {
   id?: number;
@@ -538,15 +539,8 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="text-center">
-            <Button 
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              <Icon name="Image" className="mr-2" size={20} />
-              ЗАКАЗАТЬ РЕТУШЬ ФОТО
-            </Button>
+          <div className="max-w-3xl mx-auto">
+            <RetouchForm />
           </div>
         </div>
       </section>
