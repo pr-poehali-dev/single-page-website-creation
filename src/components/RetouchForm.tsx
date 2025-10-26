@@ -4,9 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 const RetouchForm = () => {
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -42,6 +44,7 @@ const RetouchForm = () => {
     }
 
     setLoading(true);
+    setUploadProgress(0);
 
     try {
       const formDataToSend = new FormData();
@@ -50,10 +53,24 @@ const RetouchForm = () => {
       formDataToSend.append("comment", formData.comment);
       formDataToSend.append("photo", selectedFile);
 
+      // Simulate upload progress
+      const progressInterval = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
       const response = await fetch("https://functions.poehali.dev/8fc1d3aa-d848-4664-99c3-7ad60233aa64", {
         method: "POST",
         body: formDataToSend
       });
+
+      clearInterval(progressInterval);
+      setUploadProgress(100);
 
       const result = await response.json();
 
@@ -62,12 +79,15 @@ const RetouchForm = () => {
         setFormData({ name: "", phone: "", comment: "" });
         setSelectedFile(null);
         setPreviewUrl("");
+        setTimeout(() => setUploadProgress(0), 1000);
       } else {
         toast.error(result.error || "Ошибка при отправке заявки");
+        setUploadProgress(0);
       }
     } catch (error) {
       toast.error("Ошибка при отправке заявки. Попробуйте позже");
       console.error("Submit error:", error);
+      setUploadProgress(0);
     } finally {
       setLoading(false);
     }
@@ -176,6 +196,16 @@ const RetouchForm = () => {
               className="min-h-[120px] text-base resize-none"
             />
           </div>
+
+          {/* Прогресс загрузки */}
+          {loading && uploadProgress > 0 && (
+            <div className="space-y-2">
+              <Progress value={uploadProgress} className="h-2" />
+              <p className="text-center text-sm text-muted-foreground">
+                Загрузка: {uploadProgress}%
+              </p>
+            </div>
+          )}
 
           {/* Кнопка отправки */}
           <Button
