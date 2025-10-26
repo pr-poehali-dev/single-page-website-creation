@@ -3,8 +3,6 @@ import os
 import base64
 from typing import Dict, Any
 import requests
-from io import BytesIO
-from multipart.multipart import MultipartParser
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -93,25 +91,46 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         print(f"Extracted boundary: {boundary}")
         
-        # Parse form data
+        # Parse form data manually (simpler and more reliable)
         form_data = {}
         photo_data = None
         photo_filename = 'photo.jpg'
         
-        def on_part(part):
-            nonlocal photo_data, photo_filename, form_data
-            name = part.name.decode('utf-8') if isinstance(part.name, bytes) else part.name
-            
-            if name == 'photo':
-                photo_filename = part.filename.decode('utf-8') if isinstance(part.filename, bytes) else part.filename
-                photo_data = part.file.read()
-            else:
-                value = part.file.read()
-                form_data[name] = value.decode('utf-8', errors='ignore')
+        # Split by boundary
+        parts = body_bytes.split(b'--' + boundary)
         
-        parser = MultipartParser(BytesIO(body_bytes), boundary)
-        for part in parser:
-            on_part(part)
+        for part in parts:
+            if b'Content-Disposition' not in part:
+                continue
+            
+            # Extract field name
+            if b'name="' in part:
+                name_start = part.find(b'name="') + 6
+                name_end = part.find(b'"', name_start)
+                field_name = part[name_start:name_end].decode('utf-8')
+                
+                # Find content (after double CRLF)
+                content_start = part.find(b'\r\n\r\n')
+                if content_start == -1:
+                    continue
+                content_start += 4
+                
+                # Content ends before final CRLF
+                content_end = part.rfind(b'\r\n')
+                if content_end == -1:
+                    content_end = len(part)
+                
+                content = part[content_start:content_end]
+                
+                # Check if this is a file field
+                if field_name == 'photo' and b'filename="' in part:
+                    fn_start = part.find(b'filename="') + 10
+                    fn_end = part.find(b'"', fn_start)
+                    photo_filename = part[fn_start:fn_end].decode('utf-8')
+                    photo_data = content
+                else:
+                    # Text field
+                    form_data[field_name] = content.decode('utf-8', errors='ignore')
         
         name = form_data.get('name', 'Не указано')
         phone = form_data.get('phone', 'Не указано')
