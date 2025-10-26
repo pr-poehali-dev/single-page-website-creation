@@ -132,7 +132,7 @@ const Admin = () => {
   };
 
   const handleCancel = () => {
-    setFormData({ title: "", image_url: "", price: "", size: "", description: "" });
+    setFormData({ title: "", image_url: "", price: "", size: "", category: "Вертикальные", description: "" });
     setEditingId(null);
   };
 
