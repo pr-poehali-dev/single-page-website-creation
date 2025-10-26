@@ -158,32 +158,25 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Баннер скидки - квадратный */}
+            {/* Баннер скидки - компактный */}
             <div className="relative animate-fade-in">
-              <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/80 rounded-2xl p-8 shadow-2xl overflow-hidden w-[280px] h-[280px] flex items-center justify-center">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+              <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-6 shadow-xl overflow-hidden w-[200px] h-[200px] flex items-center justify-center">
                 
                 <div className="relative z-10 text-primary-foreground text-center">
-                  <div className="inline-flex items-center justify-center w-32 h-32 bg-white/20 backdrop-blur-sm rounded-2xl border-4 border-white/40 mb-4 shadow-lg px-[13px]">
-                    <div>
-                      <div className="font-oswald font-bold text-6xl leading-none">25%</div>
-                      <div className="text-sm font-bold mt-1">СКИДКА</div>
-                    </div>
+                  <div className="mb-3">
+                    <div className="font-oswald font-bold text-5xl leading-none">25%</div>
+                    <div className="text-xs font-bold mt-1 opacity-90">СКИДКА</div>
                   </div>
                   
-                  <div className="font-oswald font-bold text-2xl mb-2">
+                  <div className="font-oswald font-bold text-xl mb-1">
                     АКЦИЯ!
                   </div>
                   
-                  <div className="text-sm opacity-90">
-                    На все памятники до конца месяца
+                  <div className="text-xs opacity-80">
+                    До конца месяца
                   </div>
                 </div>
               </div>
-              
-              {/* Декоративные элементы */}
-              <div className="absolute -top-3 -right-3 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
-              <div className="absolute -bottom-3 -left-3 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
             </div>
           </div>
         </div>
