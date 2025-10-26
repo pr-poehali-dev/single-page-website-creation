@@ -46,7 +46,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         image_base64 = body_data.get('image')
         file_extension = body_data.get('extension', 'jpg')
         
+        print(f"Received upload request with extension: {file_extension}")
+        
         if not image_base64:
+            print("Error: No image provided in request")
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -59,6 +62,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         s3_access_key = os.environ.get('S3_ACCESS_KEY')
         s3_secret_key = os.environ.get('S3_SECRET_KEY')
+        
+        print(f"S3 keys available: {bool(s3_access_key and s3_secret_key)}")
         
         if s3_access_key and s3_secret_key:
             image_data = base64.b64decode(image_base64)

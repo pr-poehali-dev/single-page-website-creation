@@ -168,6 +168,15 @@ const Admin = () => {
 
           setUploadProgress(90);
 
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+            console.error('Upload error:', errorData);
+            alert(`Ошибка загрузки: ${errorData.error || 'Неизвестная ошибка'}`);
+            setUploading(false);
+            setUploadProgress(0);
+            return;
+          }
+
           const data = await response.json();
 
           if (data.url) {
@@ -179,7 +188,7 @@ const Admin = () => {
               setUploadProgress(0);
             }, 500);
           } else {
-            alert('Ошибка загрузки изображения');
+            alert('Ошибка: не получен URL изображения');
             setUploading(false);
             setUploadProgress(0);
           }
