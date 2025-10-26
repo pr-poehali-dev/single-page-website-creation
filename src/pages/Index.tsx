@@ -32,7 +32,7 @@ const Index = () => {
       .catch(err => console.error("Error loading monuments:", err));
   }, []);
 
-  const categories = ["Все", "Стандартные", "Премиум", "Эксклюзивные"];
+  const categories = ["Все", "Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
 
   const filteredMonuments = activeCategory === "Все" 
     ? monuments 

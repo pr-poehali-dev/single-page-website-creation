@@ -84,7 +84,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             image_url = body_data.get('image_url')
             price = body_data.get('price')
             size = body_data.get('size')
-            category = body_data.get('category', 'Стандартные')
+            category = body_data.get('category', 'Вертикальные')
             
             if not all([title, image_url, price, size]):
                 return {
@@ -139,7 +139,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     body_data.get('image_url'),
                     body_data.get('price'),
                     body_data.get('size'),
-                    body_data.get('category', 'Стандартные'),
+                    body_data.get('category', 'Вертикальные'),
                     monument_id
                 )
             )

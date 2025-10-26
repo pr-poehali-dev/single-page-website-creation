@@ -27,11 +27,11 @@ const Admin = () => {
     image_url: "",
     price: "",
     size: "",
-    category: "Стандартные",
+    category: "Вертикальные",
     description: ""
   });
 
-  const categories = ["Стандартные", "Премиум", "Эксклюзивные"];
+  const categories = ["Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
   const UPLOAD_URL = "https://functions.poehali.dev/96dcc1e1-90f9-4b11-b0c7-2d66559ddcbb";
@@ -89,7 +89,7 @@ const Admin = () => {
 
       if (response.ok) {
         alert(editingId ? '✓ Памятник успешно обновлён' : '✓ Памятник успешно добавлен');
-        setFormData({ title: "", image_url: "", price: "", size: "", category: "Стандартные", description: "" });
+        setFormData({ title: "", image_url: "", price: "", size: "", category: "Вертикальные", description: "" });
         setEditingId(null);
         fetchMonuments();
       } else {
