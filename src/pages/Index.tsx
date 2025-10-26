@@ -315,37 +315,36 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Карточки товаров */}
-          <div className="relative px-4">
-            <div className="grid grid-cols-2 md:flex gap-4 md:gap-6 md:overflow-x-auto md:pb-4 md:snap-x md:snap-mandatory md:scrollbar-hide">
-              {monuments.map((item, idx) => (
-                <Card 
-                  key={item.id || idx}
-                  className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group md:flex-shrink-0 md:w-[300px] md:snap-start"
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary flex items-center justify-center">
-                    <img 
-                      src={item.image_url} 
-                      alt={item.title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    />
+          {/* Карточки товаров - сетка 4 колонки */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {monuments.map((item, idx) => (
+              <Card 
+                key={item.id || idx}
+                className="bg-card border-border hover:border-primary transition-all duration-300 overflow-hidden group"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary flex items-center justify-center">
+                  <img 
+                    src={item.image_url} 
+                    alt={item.title}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <CardContent className="p-3 md:p-6">
+                  <h3 className="font-oswald font-semibold text-base md:text-xl mb-1">{item.title}</h3>
+                  <div className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">{item.size}</div>
+                  <div className="flex flex-col gap-2 md:gap-3">
+                    <span className="font-oswald text-lg md:text-2xl text-[#f59f0a]">{item.price}</span>
+                    <Button 
+                      size="lg"
+                      className="w-full bg-[#f59f0a] hover:bg-[#d88a09] text-white font-oswald text-sm md:text-base py-2 md:py-3"
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      Подробнее
+                    </Button>
                   </div>
-                  <CardContent className="p-3 md:p-6">
-                    <h3 className="font-oswald font-semibold text-base md:text-xl mb-1">{item.title}</h3>
-                    <div className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">{item.size}</div>
-                    <div className="flex flex-col gap-2 md:gap-3">
-                      <span className="font-oswald text-lg md:text-2xl text-[#f59f0a]">{item.price}</span>
-                      <Button 
-                        size="lg"
-                        className="w-full bg-[#f59f0a] hover:bg-[#d88a09] text-white font-oswald text-sm md:text-base py-2 md:py-3"
-                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                      >
-                        Подробнее
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                </CardContent>
+              </Card>
+            ))}
             </div>
           </div>
         </div>
