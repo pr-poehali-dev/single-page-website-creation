@@ -106,6 +106,7 @@ const Admin = () => {
   const handleEdit = (monument: Monument) => {
     setFormData(monument);
     setEditingId(monument.id || null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id: number) => {
