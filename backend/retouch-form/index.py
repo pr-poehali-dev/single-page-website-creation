@@ -3,6 +3,8 @@ import os
 import base64
 from typing import Dict, Any
 import requests
+from io import BytesIO
+from multipart.multipart import parse_options_header, MultipartParser
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
@@ -54,7 +56,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'isBase64Encoded': False
             }
         
-        # Parse multipart form data
+        # Parse multipart form data using python-multipart library
         content_type = event.get('headers', {}).get('content-type', '')
         body = event.get('body', '')
         is_base64 = event.get('isBase64Encoded', False)
@@ -62,40 +64,44 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         print(f"Content-Type: {content_type}, Is Base64: {is_base64}")
         
         if is_base64:
-            body = base64.b64decode(body)
+            body_bytes = base64.b64decode(body)
         else:
-            body = body.encode('utf-8') if isinstance(body, str) else body
+            body_bytes = body.encode('utf-8') if isinstance(body, str) else body
+        
+        # Extract boundary from Content-Type
+        _, options = parse_options_header(content_type)
+        boundary = options.get(b'boundary')
+        
+        if not boundary:
+            return {
+                'statusCode': 400,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({'success': False, 'error': 'No boundary in Content-Type'}),
+                'isBase64Encoded': False
+            }
         
         # Parse form data
-        boundary = content_type.split('boundary=')[-1]
-        parts = body.split(f'--{boundary}'.encode())
-        
         form_data = {}
         photo_data = None
         photo_filename = 'photo.jpg'
         
-        for part in parts:
-            if b'Content-Disposition' in part:
-                if b'name="' in part:
-                    name_start = part.find(b'name="') + 6
-                    name_end = part.find(b'"', name_start)
-                    field_name = part[name_start:name_end].decode('utf-8')
-                    
-                    content_start = part.find(b'\r\n\r\n') + 4
-                    content_end = part.rfind(b'\r\n')
-                    
-                    if content_start < 4 or content_end < 0:
-                        continue
-                    
-                    if field_name == 'photo':
-                        if b'filename="' in part:
-                            fn_start = part.find(b'filename="') + 10
-                            fn_end = part.find(b'"', fn_start)
-                            photo_filename = part[fn_start:fn_end].decode('utf-8')
-                        photo_data = part[content_start:content_end]
-                    else:
-                        field_value = part[content_start:content_end].decode('utf-8', errors='ignore')
-                        form_data[field_name] = field_value
+        def on_part(part):
+            nonlocal photo_data, photo_filename, form_data
+            name = part.name.decode('utf-8') if isinstance(part.name, bytes) else part.name
+            
+            if name == 'photo':
+                photo_filename = part.filename.decode('utf-8') if isinstance(part.filename, bytes) else part.filename
+                photo_data = part.file.read()
+            else:
+                value = part.file.read()
+                form_data[name] = value.decode('utf-8', errors='ignore')
+        
+        parser = MultipartParser(BytesIO(body_bytes), boundary)
+        for part in parser:
+            on_part(part)
         
         name = form_data.get('name', 'Не указано')
         phone = form_data.get('phone', 'Не указано')
@@ -154,7 +160,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
         
-    except BaseException as e:
+    except Exception as e:
         print(f"Error: {str(e)}")
         import traceback
         traceback.print_exc()
