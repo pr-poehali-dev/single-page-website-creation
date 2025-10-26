@@ -70,7 +70,7 @@ const Admin = () => {
     try {
       let response;
       if (editingId) {
-        response = await fetch(`${API_URL}/${editingId}`, {
+        response = await fetch(`${API_URL}?id=${editingId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -109,7 +109,7 @@ const Admin = () => {
     if (!confirm(`Вы уверены, что хотите удалить памятник "${monument?.title}"?\n\nЭто действие нельзя отменить.`)) return;
 
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}?id=${id}`, {
         method: "DELETE"
       });
       

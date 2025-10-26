@@ -40,7 +40,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         cursor = conn.cursor()
         
         if method == 'GET':
-            monument_id = event.get('pathParams', {}).get('id')
+            monument_id = event.get('queryStringParameters', {}).get('id')
             
             if monument_id:
                 cursor.execute(
@@ -108,7 +108,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             }
         
         elif method == 'PUT':
-            monument_id = event.get('pathParams', {}).get('id')
+            monument_id = event.get('queryStringParameters', {}).get('id')
             
             if not monument_id:
                 return {
@@ -154,7 +154,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             }
         
         elif method == 'DELETE':
-            monument_id = event.get('pathParams', {}).get('id')
+            monument_id = event.get('queryStringParameters', {}).get('id')
             
             if not monument_id:
                 return {
