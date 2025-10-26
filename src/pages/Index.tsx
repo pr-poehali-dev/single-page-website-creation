@@ -304,8 +304,8 @@ const Index = () => {
           </div>
 
           {/* Категории фильтров */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex bg-secondary rounded-lg p-1 gap-1">
+          <div className="flex justify-center mb-8 px-4">
+            <div className="grid grid-cols-2 md:inline-flex bg-secondary rounded-lg p-1 gap-1 w-full md:w-auto">
               {categories.map((category) => (
                 <button
                   key={category}
