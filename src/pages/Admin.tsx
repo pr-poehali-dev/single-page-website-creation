@@ -426,11 +426,11 @@ const Admin = () => {
                 <Card key={monument.id} className={editingId === monument.id ? 'border-primary border-2' : ''}>
                   <CardContent className="p-4">
                     <div className="flex gap-4">
-                      <div className="relative w-24 h-24 flex-shrink-0 bg-secondary rounded border-2 border-border overflow-hidden">
+                      <div className="relative w-32 h-40 flex-shrink-0 bg-secondary rounded border-2 border-border overflow-hidden">
                         <img
                           src={monument.image_url}
                           alt={monument.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
