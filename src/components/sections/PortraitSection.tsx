@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import RetouchForm from "@/components/RetouchForm";
 
 const PortraitSection = () => {
   return (
@@ -14,6 +15,11 @@ const PortraitSection = () => {
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Превратим любое фото в идеальное изображение для памятника
             </p>
+          </div>
+
+          {/* Форма заказа ретуши */}
+          <div className="mb-12">
+            <RetouchForm />
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
