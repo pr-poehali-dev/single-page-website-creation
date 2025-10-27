@@ -5,6 +5,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import Icon from "@/components/ui/icon";
 import { useState, useEffect } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface Monument {
   id?: number;
@@ -17,12 +34,97 @@ interface Monument {
 }
 
 interface GalleryItem {
-  id?: number;
+  id: string;
   type: 'image' | 'video';
   url: string;
   title: string;
   desc: string;
 }
+
+interface SortableGalleryItemProps {
+  item: GalleryItem;
+  index: number;
+  onEdit: (idx: number) => void;
+  onDelete: (idx: number) => void;
+}
+
+const SortableGalleryItem = ({ item, index, onEdit, onDelete }: SortableGalleryItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex gap-4">
+            <div 
+              {...attributes} 
+              {...listeners}
+              className="cursor-grab active:cursor-grabbing flex items-center justify-center w-10 flex-shrink-0"
+            >
+              <Icon name="GripVertical" size={20} className="text-muted-foreground" />
+            </div>
+            <div className="w-24 h-24 bg-secondary rounded overflow-hidden flex-shrink-0">
+              {item.type === 'video' ? (
+                <video
+                  src={item.url}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded font-medium">
+                  {item.type === 'video' ? '🎥 Видео' : '📷 Фото'}
+                </span>
+              </div>
+              <h4 className="font-semibold mb-1 truncate">{item.title}</h4>
+              <p className="text-sm text-muted-foreground line-clamp-2">{item.desc}</p>
+              <div className="flex gap-2 mt-3">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onEdit(index)}
+                  className="min-w-[80px]"
+                >
+                  <Icon name="Edit" size={14} className="mr-1" />
+                  Изменить
+                </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() => onDelete(index)}
+                  className="min-w-[80px]"
+                >
+                  <Icon name="Trash2" size={14} className="mr-1" />
+                  Удалить
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 const Admin = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
@@ -41,23 +143,30 @@ const Admin = () => {
   });
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([
-    { type: 'image', url: 'https://cdn.poehali.dev/files/bbcac88c-6deb-429e-b227-40488c7c5273.jpg', title: 'Комплексное благоустройство', desc: 'Установка памятников и уход за территорией' },
-    { type: 'image', url: 'https://cdn.poehali.dev/files/58ba923f-a428-4ebd-a17d-2cd8e5b523a8.jpg', title: 'Художественная гравировка', desc: 'Индивидуальный дизайн и качественное исполнение' },
-    { type: 'image', url: 'https://cdn.poehali.dev/files/c80c1bd4-c413-425a-a1fc-91dbb36a8de4.jpg', title: 'Горизонтальные памятники', desc: 'Классический дизайн из чёрного гранита' },
-    { type: 'image', url: 'https://cdn.poehali.dev/files/6f5b52e2-08d6-473f-838f-e3ffd77bc1cf.jpg', title: 'Вертикальные стелы', desc: 'С профессиональной гравировкой портрета' },
-    { type: 'image', url: 'https://cdn.poehali.dev/files/a92e8f49-5be4-4b4b-939f-e97e69b14d55.jpg', title: 'Мемориальные комплексы', desc: 'С благоустройством и цветником' },
-    { type: 'image', url: 'https://cdn.poehali.dev/files/e4f88cd9-b74c-4b96-bf11-ab78a26bc19a.jpg', title: 'Элитные памятники', desc: 'Эксклюзивный дизайн по индивидуальному проекту' }
+    { id: '1', type: 'image', url: 'https://cdn.poehali.dev/files/bbcac88c-6deb-429e-b227-40488c7c5273.jpg', title: 'Комплексное благоустройство', desc: 'Установка памятников и уход за территорией' },
+    { id: '2', type: 'image', url: 'https://cdn.poehali.dev/files/58ba923f-a428-4ebd-a17d-2cd8e5b523a8.jpg', title: 'Художественная гравировка', desc: 'Индивидуальный дизайн и качественное исполнение' },
+    { id: '3', type: 'image', url: 'https://cdn.poehali.dev/files/c80c1bd4-c413-425a-a1fc-91dbb36a8de4.jpg', title: 'Горизонтальные памятники', desc: 'Классический дизайн из чёрного гранита' },
+    { id: '4', type: 'image', url: 'https://cdn.poehali.dev/files/6f5b52e2-08d6-473f-838f-e3ffd77bc1cf.jpg', title: 'Вертикальные стелы', desc: 'С профессиональной гравировкой портрета' },
+    { id: '5', type: 'image', url: 'https://cdn.poehali.dev/files/a92e8f49-5be4-4b4b-939f-e97e69b14d55.jpg', title: 'Мемориальные комплексы', desc: 'С благоустройством и цветником' },
+    { id: '6', type: 'image', url: 'https://cdn.poehali.dev/files/e4f88cd9-b74c-4b96-bf11-ab78a26bc19a.jpg', title: 'Элитные памятники', desc: 'Эксклюзивный дизайн по индивидуальному проекту' }
   ]);
   const [editingGalleryId, setEditingGalleryId] = useState<number | null>(null);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [galleryUploadProgress, setGalleryUploadProgress] = useState(0);
   const [isDraggingGallery, setIsDraggingGallery] = useState(false);
-  const [galleryFormData, setGalleryFormData] = useState<GalleryItem>({
+  const [galleryFormData, setGalleryFormData] = useState<Omit<GalleryItem, 'id'>>({
     type: 'image',
     url: '',
     title: '',
     desc: ''
   });
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const categories = ["Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
   const filterCategories = ["Все", ...categories];
@@ -405,11 +514,12 @@ const Admin = () => {
 
     if (editingGalleryId !== null) {
       setGalleryItems(galleryItems.map((item, idx) => 
-        idx === editingGalleryId ? { ...galleryFormData, id: idx } : item
+        idx === editingGalleryId ? { ...galleryFormData, id: item.id } : item
       ));
       alert('✓ Элемент галереи обновлён');
     } else {
-      setGalleryItems([...galleryItems, { ...galleryFormData, id: galleryItems.length }]);
+      const newId = Date.now().toString();
+      setGalleryItems([...galleryItems, { ...galleryFormData, id: newId }]);
       alert('✓ Элемент галереи добавлен');
     }
 
@@ -418,8 +528,21 @@ const Admin = () => {
   };
 
   const handleEditGalleryItem = (idx: number) => {
-    setGalleryFormData(galleryItems[idx]);
+    const { id, ...rest } = galleryItems[idx];
+    setGalleryFormData(rest);
     setEditingGalleryId(idx);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setGalleryItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
   };
 
   const handleDeleteGalleryItem = (idx: number) => {
@@ -847,62 +970,37 @@ const Admin = () => {
             </Card>
 
             <div>
-              <h3 className="font-oswald font-semibold text-xl mb-4">
-                Элементы галереи ({galleryItems.length})
-              </h3>
-              <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2">
-                {galleryItems.map((item, idx) => (
-                  <Card key={idx}>
-                    <CardContent className="p-4">
-                      <div className="flex gap-4">
-                        <div className="w-24 h-24 bg-secondary rounded overflow-hidden flex-shrink-0">
-                          {item.type === 'video' ? (
-                            <video
-                              src={item.url}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <img
-                              src={item.url}
-                              alt={item.title}
-                              className="w-full h-full object-cover"
-                            />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded font-medium">
-                              {item.type === 'video' ? '🎥 Видео' : '📷 Фото'}
-                            </span>
-                          </div>
-                          <h4 className="font-semibold mb-1 truncate">{item.title}</h4>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{item.desc}</p>
-                          <div className="flex gap-2 mt-3">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleEditGalleryItem(idx)}
-                              className="min-w-[80px]"
-                            >
-                              <Icon name="Edit" size={14} className="mr-1" />
-                              Изменить
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => handleDeleteGalleryItem(idx)}
-                              className="min-w-[80px]"
-                            >
-                              <Icon name="Trash2" size={14} className="mr-1" />
-                              Удалить
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-oswald font-semibold text-xl">
+                  Элементы галереи ({galleryItems.length})
+                </h3>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Icon name="GripVertical" size={16} />
+                  <span>Перетащите для изменения порядка</span>
+                </div>
               </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={galleryItems.map(item => item.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2">
+                    {galleryItems.map((item, idx) => (
+                      <SortableGalleryItem
+                        key={item.id}
+                        item={item}
+                        index={idx}
+                        onEdit={handleEditGalleryItem}
+                        onDelete={handleDeleteGalleryItem}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
           </div>
         </div>
