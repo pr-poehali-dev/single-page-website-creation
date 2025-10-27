@@ -195,9 +195,15 @@ const Admin = () => {
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
-      setMonuments(data);
+      if (Array.isArray(data)) {
+        setMonuments(data);
+      } else {
+        console.error("API returned non-array data:", data);
+        setMonuments([]);
+      }
     } catch (error) {
       console.error("Error fetching monuments:", error);
+      setMonuments([]);
     }
   };
 
