@@ -23,6 +23,7 @@ const Index = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
   const [activeCategory, setActiveCategory] = useState("Все");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
@@ -123,13 +124,84 @@ const Index = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => navigate('/admin')}
-                className="gap-2"
+                className="gap-2 hidden md:flex"
               >
                 <Icon name="Lock" size={16} />
                 <span className="hidden md:inline">Админ</span>
               </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden"
+              >
+                <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} />
+              </Button>
             </div>
           </div>
+          
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 py-4 border-t border-border animate-fade-in">
+              <nav className="flex flex-col gap-3">
+                <a 
+                  href="#catalog" 
+                  className="py-2 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Каталог
+                </a>
+                <a 
+                  href="#portfolio" 
+                  className="py-2 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Наши работы
+                </a>
+                <a 
+                  href="#services" 
+                  className="py-2 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Услуги
+                </a>
+                <a 
+                  href="#prices" 
+                  className="py-2 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Цены
+                </a>
+                <a 
+                  href="#contact" 
+                  className="py-2 px-3 rounded-lg hover:bg-secondary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Контакты
+                </a>
+                <div className="pt-2 border-t border-border mt-2">
+                  <a 
+                    href="tel:+79960681168" 
+                    className="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-secondary transition-colors font-bold"
+                  >
+                    <Icon name="Phone" size={18} />
+                    8 (996) 068-11-68
+                  </a>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    navigate('/admin');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="gap-2 justify-start"
+                >
+                  <Icon name="Lock" size={16} />
+                  Админка
+                </Button>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
