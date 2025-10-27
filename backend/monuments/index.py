@@ -44,9 +44,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             monument_id = event.get('queryStringParameters', {}).get('id')
             
             if monument_id:
+                safe_id = monument_id.replace("'", "''")
                 cursor.execute(
-                    "SELECT * FROM t_p78642605_single_page_website_.monuments WHERE id = %s",
-                    (monument_id,)
+                    f"SELECT * FROM t_p78642605_single_page_website_.monuments WHERE id = '{safe_id}'"
                 )
                 monument = cursor.fetchone()
                 
@@ -66,7 +66,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             else:
                 cursor.execute(
-                    "SELECT * FROM t_p78642605_single_page_website_.monuments ORDER BY created_at DESC"
+                    "SELECT id, title, image_url, price, size, category, created_at, updated_at FROM t_p78642605_single_page_website_.monuments ORDER BY created_at DESC"
                 )
                 monuments = cursor.fetchall()
                 
@@ -80,11 +80,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         elif method == 'POST':
             body_data = json.loads(event.get('body', '{}'))
             
-            title = body_data.get('title')
-            image_url = body_data.get('image_url')
-            price = body_data.get('price')
-            size = body_data.get('size')
-            category = body_data.get('category', 'Вертикальные')
+            title = body_data.get('title', '').replace("'", "''")
+            image_url = body_data.get('image_url', '').replace("'", "''")
+            price = body_data.get('price', '').replace("'", "''")
+            size = body_data.get('size', '').replace("'", "''")
+            category = body_data.get('category', 'Вертикальные').replace("'", "''")
             
             if not all([title, image_url, price, size]):
                 return {
@@ -95,12 +95,11 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             
             cursor.execute(
-                """
+                f"""
                 INSERT INTO t_p78642605_single_page_website_.monuments (title, image_url, price, size, category)
-                VALUES (%s, %s, %s, %s, %s)
+                VALUES ('{title}', '{image_url}', '{price}', '{size}', '{category}')
                 RETURNING *
-                """,
-                (title, image_url, price, size, category)
+                """
             )
             
             new_monument = cursor.fetchone()
@@ -126,22 +125,21 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             body_data = json.loads(event.get('body', '{}'))
             
+            safe_id = monument_id.replace("'", "''")
+            title = body_data.get('title', '').replace("'", "''")
+            image_url = body_data.get('image_url', '').replace("'", "''")
+            price = body_data.get('price', '').replace("'", "''")
+            size = body_data.get('size', '').replace("'", "''")
+            category = body_data.get('category', 'Вертикальные').replace("'", "''")
+            
             cursor.execute(
-                """
+                f"""
                 UPDATE t_p78642605_single_page_website_.monuments 
-                SET title = %s, image_url = %s, price = %s, size = %s, category = %s,
+                SET title = '{title}', image_url = '{image_url}', price = '{price}', size = '{size}', category = '{category}',
                     updated_at = CURRENT_TIMESTAMP
-                WHERE id = %s
+                WHERE id = '{safe_id}'
                 RETURNING *
-                """,
-                (
-                    body_data.get('title'),
-                    body_data.get('image_url'),
-                    body_data.get('price'),
-                    body_data.get('size'),
-                    body_data.get('category', 'Вертикальные'),
-                    monument_id
-                )
+                """
             )
             
             updated_monument = cursor.fetchone()
@@ -176,10 +174,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'body': json.dumps({'error': 'Monument ID required'})
                 }
             
-            print(f"Executing DELETE query for ID: {monument_id}")
+            safe_id = monument_id.replace("'", "''")
+            print(f"Executing DELETE query for ID: {safe_id}")
             cursor.execute(
-                "DELETE FROM t_p78642605_single_page_website_.monuments WHERE id = %s RETURNING id",
-                (monument_id,)
+                f"DELETE FROM t_p78642605_single_page_website_.monuments WHERE id = '{safe_id}' RETURNING id"
             )
             
             deleted = cursor.fetchone()
