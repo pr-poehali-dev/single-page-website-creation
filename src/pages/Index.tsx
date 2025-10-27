@@ -29,8 +29,18 @@ const Index = () => {
   useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
-      .then(data => setMonuments(data))
-      .catch(err => console.error("Error loading monuments:", err));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setMonuments(data);
+        } else {
+          console.error("API returned non-array data:", data);
+          setMonuments([]);
+        }
+      })
+      .catch(err => {
+        console.error("Error loading monuments:", err);
+        setMonuments([]);
+      });
   }, []);
 
   const categories = ["Все", "Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
