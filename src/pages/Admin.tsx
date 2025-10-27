@@ -16,6 +16,14 @@ interface Monument {
   description?: string;
 }
 
+interface GalleryItem {
+  id?: number;
+  type: 'image' | 'video';
+  url: string;
+  title: string;
+  desc: string;
+}
+
 const Admin = () => {
   const [monuments, setMonuments] = useState<Monument[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -32,6 +40,25 @@ const Admin = () => {
     description: ""
   });
 
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([
+    { type: 'image', url: 'https://cdn.poehali.dev/files/bbcac88c-6deb-429e-b227-40488c7c5273.jpg', title: 'Комплексное благоустройство', desc: 'Установка памятников и уход за территорией' },
+    { type: 'image', url: 'https://cdn.poehali.dev/files/58ba923f-a428-4ebd-a17d-2cd8e5b523a8.jpg', title: 'Художественная гравировка', desc: 'Индивидуальный дизайн и качественное исполнение' },
+    { type: 'image', url: 'https://cdn.poehali.dev/files/c80c1bd4-c413-425a-a1fc-91dbb36a8de4.jpg', title: 'Горизонтальные памятники', desc: 'Классический дизайн из чёрного гранита' },
+    { type: 'image', url: 'https://cdn.poehali.dev/files/6f5b52e2-08d6-473f-838f-e3ffd77bc1cf.jpg', title: 'Вертикальные стелы', desc: 'С профессиональной гравировкой портрета' },
+    { type: 'image', url: 'https://cdn.poehali.dev/files/a92e8f49-5be4-4b4b-939f-e97e69b14d55.jpg', title: 'Мемориальные комплексы', desc: 'С благоустройством и цветником' },
+    { type: 'image', url: 'https://cdn.poehali.dev/files/e4f88cd9-b74c-4b96-bf11-ab78a26bc19a.jpg', title: 'Элитные памятники', desc: 'Эксклюзивный дизайн по индивидуальному проекту' }
+  ]);
+  const [editingGalleryId, setEditingGalleryId] = useState<number | null>(null);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [galleryUploadProgress, setGalleryUploadProgress] = useState(0);
+  const [isDraggingGallery, setIsDraggingGallery] = useState(false);
+  const [galleryFormData, setGalleryFormData] = useState<GalleryItem>({
+    type: 'image',
+    url: '',
+    title: '',
+    desc: ''
+  });
+
   const categories = ["Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
   const filterCategories = ["Все", ...categories];
 
@@ -40,7 +67,20 @@ const Admin = () => {
 
   useEffect(() => {
     fetchMonuments();
+    
+    const savedGallery = localStorage.getItem('galleryItems');
+    if (savedGallery) {
+      try {
+        setGalleryItems(JSON.parse(savedGallery));
+      } catch (e) {
+        console.error('Error loading gallery items:', e);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('galleryItems', JSON.stringify(galleryItems));
+  }, [galleryItems]);
 
   const fetchMonuments = async () => {
     try {
@@ -139,8 +179,11 @@ const Admin = () => {
   };
 
   const uploadFile = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('Пожалуйста, выберите изображение');
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    
+    if (!isImage && !isVideo) {
+      alert('Пожалуйста, выберите изображение или видео');
       return;
     }
 
@@ -161,7 +204,7 @@ const Admin = () => {
         try {
           setUploadProgress(50);
           const base64 = event.target?.result as string;
-          const extension = file.name.split('.').pop() || 'jpg';
+          const extension = file.name.split('.').pop() || (file.type.startsWith('video/') ? 'mp4' : 'jpg');
 
           setUploadProgress(60);
 
@@ -241,6 +284,153 @@ const Admin = () => {
     if (file) {
       uploadFile(file);
     }
+  };
+
+  const uploadGalleryFile = async (file: File) => {
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    
+    if (!isImage && !isVideo) {
+      alert('Пожалуйста, выберите изображение или видео');
+      return;
+    }
+
+    setUploadingGallery(true);
+    setGalleryUploadProgress(0);
+
+    try {
+      const reader = new FileReader();
+      
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percentLoaded = Math.round((e.loaded / e.total) * 50);
+          setGalleryUploadProgress(percentLoaded);
+        }
+      };
+      
+      reader.onload = async (event) => {
+        try {
+          setGalleryUploadProgress(50);
+          const base64 = event.target?.result as string;
+          const extension = file.name.split('.').pop() || (isVideo ? 'mp4' : 'jpg');
+
+          setGalleryUploadProgress(60);
+
+          const response = await fetch(UPLOAD_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image: base64,
+              extension: extension
+            })
+          });
+
+          setGalleryUploadProgress(90);
+
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+            console.error('Upload error:', errorData);
+            alert(`Ошибка загрузки: ${errorData.error || 'Неизвестная ошибка'}`);
+            setUploadingGallery(false);
+            setGalleryUploadProgress(0);
+            return;
+          }
+
+          const data = await response.json();
+
+          if (data.url) {
+            setGalleryUploadProgress(100);
+            setGalleryFormData({ 
+              ...galleryFormData, 
+              url: data.url,
+              type: isVideo ? 'video' : 'image'
+            });
+            
+            setTimeout(() => {
+              setUploadingGallery(false);
+              setGalleryUploadProgress(0);
+            }, 500);
+          } else {
+            alert('Ошибка: не получен URL файла');
+            setUploadingGallery(false);
+            setGalleryUploadProgress(0);
+          }
+        } catch (error) {
+          console.error('Upload error:', error);
+          alert('Ошибка загрузки файла');
+          setUploadingGallery(false);
+          setGalleryUploadProgress(0);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Ошибка загрузки файла');
+      setUploadingGallery(false);
+      setGalleryUploadProgress(0);
+    }
+  };
+
+  const handleGalleryImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) uploadGalleryFile(file);
+  };
+
+  const handleGalleryDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingGallery(true);
+  };
+
+  const handleGalleryDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingGallery(false);
+  };
+
+  const handleGalleryDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingGallery(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      uploadGalleryFile(file);
+    }
+  };
+
+  const handleAddGalleryItem = () => {
+    if (!galleryFormData.url || !galleryFormData.title || !galleryFormData.desc) {
+      alert('Пожалуйста, заполните все поля');
+      return;
+    }
+
+    if (editingGalleryId !== null) {
+      setGalleryItems(galleryItems.map((item, idx) => 
+        idx === editingGalleryId ? { ...galleryFormData, id: idx } : item
+      ));
+      alert('✓ Элемент галереи обновлён');
+    } else {
+      setGalleryItems([...galleryItems, { ...galleryFormData, id: galleryItems.length }]);
+      alert('✓ Элемент галереи добавлен');
+    }
+
+    setGalleryFormData({ type: 'image', url: '', title: '', desc: '' });
+    setEditingGalleryId(null);
+  };
+
+  const handleEditGalleryItem = (idx: number) => {
+    setGalleryFormData(galleryItems[idx]);
+    setEditingGalleryId(idx);
+  };
+
+  const handleDeleteGalleryItem = (idx: number) => {
+    if (!confirm('Вы уверены, что хотите удалить этот элемент?')) return;
+    setGalleryItems(galleryItems.filter((_, i) => i !== idx));
+    alert('✓ Элемент галереи удалён');
+  };
+
+  const handleCancelGalleryEdit = () => {
+    setGalleryFormData({ type: 'image', url: '', title: '', desc: '' });
+    setEditingGalleryId(null);
   };
 
   return (
@@ -516,6 +706,204 @@ const Admin = () => {
                 </Card>
               ))
             )}
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="font-oswald font-bold text-3xl mb-6">Управление галереей работ</h2>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-oswald">
+                  {editingGalleryId !== null ? "Редактировать элемент" : "Добавить фото/видео в галерею"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Тип контента</label>
+                    <select
+                      value={galleryFormData.type}
+                      onChange={(e) => setGalleryFormData({ ...galleryFormData, type: e.target.value as 'image' | 'video' })}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      <option value="image">Фото</option>
+                      <option value="video">Видео</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Файл *</label>
+                    <div className="space-y-3">
+                      <div 
+                        className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                          isDraggingGallery 
+                            ? 'border-primary bg-primary/5' 
+                            : 'border-border hover:border-primary/50'
+                        }`}
+                        onDragOver={handleGalleryDragOver}
+                        onDragLeave={handleGalleryDragLeave}
+                        onDrop={handleGalleryDrop}
+                      >
+                        {uploadingGallery ? (
+                          <div className="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
+                            <Icon name="Loader2" className="animate-spin text-primary" size={40} />
+                            <div className="w-full space-y-2">
+                              <Progress value={galleryUploadProgress} className="h-2" />
+                              <p className="text-sm text-center text-muted-foreground font-medium">
+                                Загрузка {galleryUploadProgress}%
+                              </p>
+                            </div>
+                          </div>
+                        ) : galleryFormData.url ? (
+                          <div className="space-y-3">
+                            <div className="relative w-full h-48 bg-secondary rounded overflow-hidden">
+                              {galleryFormData.type === 'video' ? (
+                                <video
+                                  src={galleryFormData.url}
+                                  className="w-full h-full object-contain"
+                                  controls
+                                />
+                              ) : (
+                                <img
+                                  src={galleryFormData.url}
+                                  alt="Превью"
+                                  className="w-full h-full object-contain"
+                                />
+                              )}
+                            </div>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setGalleryFormData({ ...galleryFormData, url: "" })}
+                            >
+                              <Icon name="X" className="mr-2" size={16} />
+                              Удалить файл
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <Icon name="Upload" className="mx-auto text-muted-foreground" size={48} />
+                            <div>
+                              <p className="text-sm font-medium mb-1">
+                                Перетащите {galleryFormData.type === 'video' ? 'видео' : 'изображение'} сюда
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                или нажмите, чтобы выбрать файл
+                              </p>
+                            </div>
+                            <Input
+                              type="file"
+                              accept={galleryFormData.type === 'video' ? 'video/*' : 'image/*'}
+                              onChange={handleGalleryImageUpload}
+                              disabled={uploadingGallery}
+                              className="absolute inset-0 opacity-0 cursor-pointer"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <Input
+                        value={galleryFormData.url}
+                        onChange={(e) => setGalleryFormData({ ...galleryFormData, url: e.target.value })}
+                        placeholder="или вставьте URL: https://..."
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Название *</label>
+                    <Input
+                      value={galleryFormData.title}
+                      onChange={(e) => setGalleryFormData({ ...galleryFormData, title: e.target.value })}
+                      placeholder="Комплексное благоустройство"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Описание *</label>
+                    <Textarea
+                      value={galleryFormData.desc}
+                      onChange={(e) => setGalleryFormData({ ...galleryFormData, desc: e.target.value })}
+                      placeholder="Установка памятников и уход за территорией"
+                      rows={2}
+                    />
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button type="button" onClick={handleAddGalleryItem} className="flex-1">
+                      <Icon name={editingGalleryId !== null ? "Save" : "Plus"} className="mr-2" size={18} />
+                      {editingGalleryId !== null ? "Сохранить" : "Добавить"}
+                    </Button>
+                    {editingGalleryId !== null && (
+                      <Button type="button" variant="outline" onClick={handleCancelGalleryEdit}>
+                        Отмена
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div>
+              <h3 className="font-oswald font-semibold text-xl mb-4">
+                Элементы галереи ({galleryItems.length})
+              </h3>
+              <div className="space-y-4 max-h-[800px] overflow-y-auto pr-2">
+                {galleryItems.map((item, idx) => (
+                  <Card key={idx}>
+                    <CardContent className="p-4">
+                      <div className="flex gap-4">
+                        <div className="w-24 h-24 bg-secondary rounded overflow-hidden flex-shrink-0">
+                          {item.type === 'video' ? (
+                            <video
+                              src={item.url}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <img
+                              src={item.url}
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                            />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded font-medium">
+                              {item.type === 'video' ? '🎥 Видео' : '📷 Фото'}
+                            </span>
+                          </div>
+                          <h4 className="font-semibold mb-1 truncate">{item.title}</h4>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{item.desc}</p>
+                          <div className="flex gap-2 mt-3">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleEditGalleryItem(idx)}
+                              className="min-w-[80px]"
+                            >
+                              <Icon name="Edit" size={14} className="mr-1" />
+                              Изменить
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteGalleryItem(idx)}
+                              className="min-w-[80px]"
+                            >
+                              <Icon name="Trash2" size={14} className="mr-1" />
+                              Удалить
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
