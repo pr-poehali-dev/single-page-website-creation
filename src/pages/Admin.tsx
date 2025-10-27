@@ -346,6 +346,13 @@ const Admin = () => {
           const data = await response.json();
 
           if (data.url) {
+            if (data.url.startsWith('data:')) {
+              alert('⚠️ ВАЖНО: Изображение не загружено в облако!\n\nСвяжитесь с администратором для настройки облачного хранилища.\nИспользование base64 изображений приведёт к ошибкам в каталоге.');
+              setUploading(false);
+              setUploadProgress(0);
+              return;
+            }
+            
             setUploadProgress(100);
             setFormData({ ...formData, image_url: data.url });
             
