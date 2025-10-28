@@ -447,9 +447,7 @@ const Index = () => {
 
               <div className="order-1 lg:order-2 space-y-8">
                 <div>
-                  <h2 className="font-oswald font-bold text-4xl md:text-5xl lg:text-6xl mb-4 tracking-tight">
-                    КОМПЛЕКСНЫЙ
-                  </h2>
+                  <h2 className="font-oswald font-bold text-4xl md:text-5xl lg:text-6xl mb-4 tracking-tight">Благоустройство</h2>
                   <p className="text-xl md:text-2xl text-muted-foreground font-medium">
                     ОБЛИК УЧАСТКА
                   </p>
