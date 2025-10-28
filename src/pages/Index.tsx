@@ -638,7 +638,7 @@ const Index = () => {
               <div 
                 key={idx}
                 className="relative group overflow-hidden rounded-lg shadow-lg aspect-[4/3] cursor-pointer"
-                onClick={() => item.url && setSelectedImage(item.url)}
+                onClick={() => setSelectedImage(item.url)}
               >
                 <img 
                   src={item.url}
@@ -899,9 +899,9 @@ const Index = () => {
         </div>
       </section>
 
-      {selectedImage && selectedImage.trim() !== "" && (
+      {selectedImage && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button 

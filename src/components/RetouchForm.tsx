@@ -17,16 +17,63 @@ const RetouchForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File): Promise<File> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          const maxSize = 1200;
+          if (width > height && width > maxSize) {
+            height = (height * maxSize) / width;
+            width = maxSize;
+          } else if (height > maxSize) {
+            width = (width * maxSize) / height;
+            height = maxSize;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              });
+              resolve(compressedFile);
+            } else {
+              resolve(file);
+            }
+          }, 'image/jpeg', 0.85);
+        };
+        img.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
         toast.error("Размер файла не должен превышать 10 МБ");
         return;
       }
-      setSelectedFile(file);
-      const url = URL.createObjectURL(file);
+      
+      toast.info("Подготовка фото...");
+      const compressedFile = await compressImage(file);
+      setSelectedFile(compressedFile);
+      const url = URL.createObjectURL(compressedFile);
       setPreviewUrl(url);
+      toast.success("Фото загружено");
     }
   };
 
@@ -132,7 +179,6 @@ const RetouchForm = () => {
                       className="absolute top-2 right-2"
                       onClick={(e) => {
                         e.preventDefault();
-                        e.stopPropagation();
                         setSelectedFile(null);
                         setPreviewUrl("");
                       }}
@@ -152,15 +198,6 @@ const RetouchForm = () => {
                   </>
                 )}
               </label>
-              {selectedFile && (
-                <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
-                  <Icon name="File" size={16} />
-                  <span className="font-medium">{selectedFile.name}</span>
-                  <span className="text-xs">
-                    ({(selectedFile.size / 1024 / 1024).toFixed(2)} МБ)
-                  </span>
-                </div>
-              )}
             </div>
           </div>
 
