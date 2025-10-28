@@ -62,18 +62,33 @@ const RetouchForm = () => {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        toast.error("Размер файла не должен превышать 10 МБ");
-        return;
-      }
-      
+    if (!file) return;
+    
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Размер файла не должен превышать 10 МБ");
+      e.target.value = "";
+      return;
+    }
+    
+    try {
       toast.info("Подготовка фото...");
       const compressedFile = await compressImage(file);
-      setSelectedFile(compressedFile);
+      
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      
       const url = URL.createObjectURL(compressedFile);
-      setPreviewUrl(url);
-      toast.success("Фото загружено");
+      
+      requestAnimationFrame(() => {
+        setSelectedFile(compressedFile);
+        setPreviewUrl(url);
+        toast.success("Фото загружено");
+      });
+    } catch (error) {
+      console.error("File processing error:", error);
+      toast.error("Ошибка обработки файла");
+      e.target.value = "";
     }
   };
 
@@ -180,8 +195,15 @@ const RetouchForm = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        setSelectedFile(null);
-                        setPreviewUrl("");
+                        if (previewUrl) {
+                          URL.revokeObjectURL(previewUrl);
+                        }
+                        const input = document.getElementById('photo-upload') as HTMLInputElement;
+                        if (input) input.value = "";
+                        requestAnimationFrame(() => {
+                          setSelectedFile(null);
+                          setPreviewUrl("");
+                        });
                       }}
                     >
                       <Icon name="X" size={16} />
