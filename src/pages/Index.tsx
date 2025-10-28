@@ -308,6 +308,51 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Рекламный блок - Премиум модели */}
+      <section className="py-16 bg-gradient-to-r from-secondary via-background to-secondary">
+        <div className="container mx-auto px-4">
+          <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10">
+            <div className="absolute top-4 right-4 bg-[#f59f0a] text-white px-6 py-2 rounded-lg font-oswald font-semibold text-sm z-10">
+              до 11 ноября
+            </div>
+
+            <div className="grid lg:grid-cols-[400px,1fr] gap-8 items-center p-8 lg:p-12">
+              <div className="relative">
+                <img 
+                  src="https://cdn.poehali.dev/files/5c627d7b-3e9e-4df0-8207-179b8b81c683.png"
+                  alt="Премиум памятники"
+                  className="w-full h-auto"
+                />
+              </div>
+
+              <div className="space-y-6">
+                <h2 className="font-oswald font-bold text-3xl md:text-5xl">
+                  Премиум модели со скидкой до 50%
+                </h2>
+
+                <div className="flex flex-wrap gap-4">
+                  <Button 
+                    size="lg"
+                    variant="default"
+                    className="bg-foreground hover:bg-foreground/90 text-background font-oswald text-base px-8"
+                    onClick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Посмотреть все памятники
+                  </Button>
+                  <Button 
+                    size="lg"
+                    className="bg-[#f59f0a] hover:bg-[#d88a09] text-white font-oswald text-base px-8"
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Выбрать с менеджером
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Помощь дизайнера */}
       <section className="py-20 bg-gradient-to-b from-background to-secondary">
         <div className="container mx-auto px-4">
