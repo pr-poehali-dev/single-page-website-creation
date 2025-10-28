@@ -25,10 +25,6 @@ const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("selectedImage changed:", selectedImage);
-  }, [selectedImage]);
-
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
   useEffect(() => {
