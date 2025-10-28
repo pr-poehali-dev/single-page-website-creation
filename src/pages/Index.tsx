@@ -28,6 +28,8 @@ const Index = () => {
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
   useEffect(() => {
+    setSelectedImage(null);
+    
     fetch(API_URL)
       .then(res => res.json())
       .then(data => {
@@ -43,6 +45,17 @@ const Index = () => {
         setMonuments([]);
       });
   }, []);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [selectedImage]);
 
   const categories = ["Все", "Вертикальные", "Горизонтальные", "Эксклюзивные", "С крестом"];
 
@@ -899,14 +912,17 @@ const Index = () => {
         </div>
       </section>
 
-      {selectedImage && (
+      {selectedImage && typeof selectedImage === 'string' && selectedImage.trim() !== '' && (
         <div 
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button 
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
           >
             <Icon name="X" size={32} />
           </button>
@@ -915,6 +931,7 @@ const Index = () => {
             alt="Увеличенное изображение"
             className="max-w-full max-h-full object-contain"
             onClick={(e) => e.stopPropagation()}
+            onError={() => setSelectedImage(null)}
           />
         </div>
       )}
