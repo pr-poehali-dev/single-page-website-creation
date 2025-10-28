@@ -119,6 +119,7 @@ const Index = () => {
               <a href="#catalog" className="hover:text-primary transition-colors">Каталог</a>
               <a href="#portfolio" className="hover:text-primary transition-colors">Наши работы</a>
               <a href="#services" className="hover:text-primary transition-colors">Услуги</a>
+              <a href="#retouch" className="hover:text-primary transition-colors">Ретушь</a>
               <a href="#prices" className="hover:text-primary transition-colors">Цены</a>
               <a href="#contact" className="hover:text-primary transition-colors">Контакты</a>
             </div>
@@ -176,6 +177,13 @@ const Index = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Услуги
+                </a>
+                <a 
+                  href="#retouch" 
+                  className="text-base hover:text-primary transition-colors py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Ретушь
                 </a>
                 <a 
                   href="#prices" 
@@ -502,7 +510,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-secondary">
+      <section id="retouch" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-oswald font-bold text-3xl md:text-5xl mb-4">
