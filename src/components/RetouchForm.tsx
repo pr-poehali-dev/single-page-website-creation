@@ -152,6 +152,15 @@ const RetouchForm = () => {
                   </>
                 )}
               </label>
+              {selectedFile && (
+                <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+                  <Icon name="File" size={16} />
+                  <span className="font-medium">{selectedFile.name}</span>
+                  <span className="text-xs">
+                    ({(selectedFile.size / 1024 / 1024).toFixed(2)} МБ)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
