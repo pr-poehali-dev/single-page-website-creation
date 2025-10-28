@@ -330,16 +330,37 @@ const Admin = () => {
         }
       };
       
+      reader.onerror = () => {
+        console.error('FileReader error');
+        alert('❌ Ошибка чтения файла. Попробуйте другое изображение.');
+        if (targetForm === 'monument') {
+          setUploading(false);
+          setUploadProgress(0);
+        } else {
+          setUploadingGallery(false);
+          setGalleryUploadProgress(0);
+        }
+      };
+      
       reader.onload = async (event) => {
         try {
+          if (!event.target?.result) {
+            throw new Error('Не удалось прочитать файл');
+          }
+          
           if (targetForm === 'monument') {
             setUploadProgress(50);
           } else {
             setGalleryUploadProgress(50);
           }
           
-          const base64 = event.target?.result as string;
-          const extension = file.name.split('.').pop() || (file.type.startsWith('video/') ? 'mp4' : 'jpg');
+          const base64 = event.target.result as string;
+          
+          if (!base64 || !base64.startsWith('data:')) {
+            throw new Error('Неверный формат данных');
+          }
+          
+          const extension = file.name.split('.').pop()?.toLowerCase() || (file.type.startsWith('video/') ? 'mp4' : 'jpg');
 
           if (targetForm === 'monument') {
             setUploadProgress(60);
@@ -347,6 +368,10 @@ const Admin = () => {
             setGalleryUploadProgress(60);
           }
 
+          const uploadTimeout = setTimeout(() => {
+            throw new Error('Превышено время ожидания загрузки');
+          }, 60000);
+          
           const response = await fetch(UPLOAD_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -355,6 +380,8 @@ const Admin = () => {
               extension: extension
             })
           });
+          
+          clearTimeout(uploadTimeout);
 
           if (targetForm === 'monument') {
             setUploadProgress(90);
@@ -378,7 +405,11 @@ const Admin = () => {
 
           const data = await response.json();
 
-          if (data.url) {
+          if (!data || typeof data !== 'object') {
+            throw new Error('Неверный ответ сервера');
+          }
+
+          if (data.url && typeof data.url === 'string') {
             if (targetForm === 'monument') {
               setUploadProgress(100);
               setFormData({ ...formData, image_url: data.url });
@@ -406,7 +437,8 @@ const Admin = () => {
           }
         } catch (error) {
           console.error('Upload error:', error);
-          alert('❌ Ошибка загрузки изображения');
+          const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+          alert(`❌ Ошибка загрузки: ${errorMessage}`);
           if (targetForm === 'monument') {
             setUploading(false);
             setUploadProgress(0);
