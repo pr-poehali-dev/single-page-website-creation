@@ -132,6 +132,7 @@ const RetouchForm = () => {
                       className="absolute top-2 right-2"
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         setSelectedFile(null);
                         setPreviewUrl("");
                       }}
