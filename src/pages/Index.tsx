@@ -25,6 +25,10 @@ const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    console.log("selectedImage changed:", selectedImage);
+  }, [selectedImage]);
+
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
   useEffect(() => {
@@ -901,7 +905,7 @@ const Index = () => {
 
       {selectedImage && selectedImage.trim() !== "" && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button 
