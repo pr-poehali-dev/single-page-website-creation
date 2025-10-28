@@ -378,30 +378,52 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative group overflow-hidden rounded-lg">
-                      <img 
-                        src="https://cdn.poehali.dev/files/ff61127a-f19b-45fb-a0b0-0de645b1e942.jpg"
-                        alt="Вариант памятника 1"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="relative group overflow-hidden rounded-xl bg-secondary">
+                      <div className="aspect-[4/3]">
+                        <img 
+                          src="https://cdn.poehali.dev/files/ff61127a-f19b-45fb-a0b0-0de645b1e942.jpg"
+                          alt="Вариант памятника 1"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <p className="text-white font-oswald font-semibold text-lg">Классический вертикальный памятник</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="relative group overflow-hidden rounded-lg">
-                      <img 
-                        src="https://cdn.poehali.dev/files/a2c6a92c-4a27-4268-a9b2-25eac2f8dad9.jpg"
-                        alt="Вариант памятника 2"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </div>
-                    <div className="relative group overflow-hidden rounded-lg col-span-2">
-                      <img 
-                        src="https://cdn.poehali.dev/files/a3bce19f-dfe6-4d50-b322-ddd2ed85257a.jpg"
-                        alt="Вариант памятника 3"
-                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-0 my-0"></div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative group overflow-hidden rounded-xl bg-secondary">
+                        <div className="aspect-[3/4]">
+                          <img 
+                            src="https://cdn.poehali.dev/files/a2c6a92c-4a27-4268-a9b2-25eac2f8dad9.jpg"
+                            alt="Вариант памятника 2"
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <p className="text-white font-oswald font-semibold text-sm">Эксклюзивный дизайн</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="relative group overflow-hidden rounded-xl bg-secondary">
+                        <div className="aspect-[3/4]">
+                          <img 
+                            src="https://cdn.poehali.dev/files/a3bce19f-dfe6-4d50-b322-ddd2ed85257a.jpg"
+                            alt="Вариант памятника 3"
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <p className="text-white font-oswald font-semibold text-sm">Комплекс с оградой</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
