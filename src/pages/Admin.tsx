@@ -293,17 +293,28 @@ const Admin = () => {
     setEditingId(null);
   };
 
-  const uploadFile = async (file: File) => {
+  const uploadFile = async (file: File, targetForm: 'monument' | 'gallery' = 'gallery') => {
     const isImage = file.type.startsWith('image/');
     const isVideo = file.type.startsWith('video/');
     
     if (!isImage && !isVideo) {
-      alert('Пожалуйста, выберите изображение или видео');
+      alert('❌ Пожалуйста, выберите изображение или видео');
       return;
     }
 
-    setUploading(true);
-    setUploadProgress(0);
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      alert('❌ Размер файла не должен превышать 10 МБ');
+      return;
+    }
+
+    if (targetForm === 'monument') {
+      setUploading(true);
+      setUploadProgress(0);
+    } else {
+      setUploadingGallery(true);
+      setGalleryUploadProgress(0);
+    }
 
     try {
       const reader = new FileReader();
@@ -311,17 +322,30 @@ const Admin = () => {
       reader.onprogress = (e) => {
         if (e.lengthComputable) {
           const percentLoaded = Math.round((e.loaded / e.total) * 50);
-          setUploadProgress(percentLoaded);
+          if (targetForm === 'monument') {
+            setUploadProgress(percentLoaded);
+          } else {
+            setGalleryUploadProgress(percentLoaded);
+          }
         }
       };
       
       reader.onload = async (event) => {
         try {
-          setUploadProgress(50);
+          if (targetForm === 'monument') {
+            setUploadProgress(50);
+          } else {
+            setGalleryUploadProgress(50);
+          }
+          
           const base64 = event.target?.result as string;
           const extension = file.name.split('.').pop() || (file.type.startsWith('video/') ? 'mp4' : 'jpg');
 
-          setUploadProgress(60);
+          if (targetForm === 'monument') {
+            setUploadProgress(60);
+          } else {
+            setGalleryUploadProgress(60);
+          }
 
           const response = await fetch(UPLOAD_URL, {
             method: 'POST',
@@ -332,14 +356,23 @@ const Admin = () => {
             })
           });
 
-          setUploadProgress(90);
+          if (targetForm === 'monument') {
+            setUploadProgress(90);
+          } else {
+            setGalleryUploadProgress(90);
+          }
 
           if (!response.ok) {
             const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
             console.error('Upload error:', errorData);
-            alert(`Ошибка загрузки: ${errorData.error || 'Неизвестная ошибка'}`);
-            setUploading(false);
-            setUploadProgress(0);
+            alert(`❌ Ошибка загрузки: ${errorData.error || 'Неизвестная ошибка'}`);
+            if (targetForm === 'monument') {
+              setUploading(false);
+              setUploadProgress(0);
+            } else {
+              setUploadingGallery(false);
+              setGalleryUploadProgress(0);
+            }
             return;
           }
 
@@ -348,175 +381,109 @@ const Admin = () => {
           if (data.url) {
             if (data.url.startsWith('data:')) {
               alert('⚠️ ВАЖНО: Изображение не загружено в облако!\n\nСвяжитесь с администратором для настройки облачного хранилища.\nИспользование base64 изображений приведёт к ошибкам в каталоге.');
-              setUploading(false);
-              setUploadProgress(0);
+              if (targetForm === 'monument') {
+                setUploading(false);
+                setUploadProgress(0);
+              } else {
+                setUploadingGallery(false);
+                setGalleryUploadProgress(0);
+              }
               return;
             }
             
-            setUploadProgress(100);
-            setFormData({ ...formData, image_url: data.url });
-            
-            setTimeout(() => {
+            if (targetForm === 'monument') {
+              setUploadProgress(100);
+              setFormData({ ...formData, image_url: data.url });
+              setTimeout(() => {
+                setUploading(false);
+                setUploadProgress(0);
+              }, 500);
+            } else {
+              setGalleryUploadProgress(100);
+              setGalleryFormData({ ...galleryFormData, url: data.url, type: isImage ? 'image' : 'video' });
+              setTimeout(() => {
+                setUploadingGallery(false);
+                setGalleryUploadProgress(0);
+              }, 500);
+            }
+          } else {
+            alert('❌ Ошибка: не получен URL изображения');
+            if (targetForm === 'monument') {
               setUploading(false);
               setUploadProgress(0);
-            }, 500);
-          } else {
-            alert('Ошибка: не получен URL изображения');
-            setUploading(false);
-            setUploadProgress(0);
+            } else {
+              setUploadingGallery(false);
+              setGalleryUploadProgress(0);
+            }
           }
         } catch (error) {
           console.error('Upload error:', error);
-          alert('Ошибка загрузки изображения');
-          setUploading(false);
-          setUploadProgress(0);
+          alert('❌ Ошибка загрузки изображения');
+          if (targetForm === 'monument') {
+            setUploading(false);
+            setUploadProgress(0);
+          } else {
+            setUploadingGallery(false);
+            setGalleryUploadProgress(0);
+          }
         }
       };
 
       reader.readAsDataURL(file);
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Ошибка загрузки изображения');
-      setUploading(false);
-      setUploadProgress(0);
+      alert('❌ Ошибка загрузки изображения');
+      if (targetForm === 'monument') {
+        setUploading(false);
+        setUploadProgress(0);
+      } else {
+        setUploadingGallery(false);
+        setGalleryUploadProgress(0);
+      }
     }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    uploadFile(file);
+    uploadFile(file, 'monument');
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent, target: 'monument' | 'gallery' = 'monument') => {
     e.preventDefault();
-    setIsDragging(true);
+    if (target === 'monument') {
+      setIsDragging(true);
+    } else {
+      setIsDraggingGallery(true);
+    }
   };
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = (e: React.DragEvent, target: 'monument' | 'gallery' = 'monument') => {
     e.preventDefault();
-    setIsDragging(false);
+    if (target === 'monument') {
+      setIsDragging(false);
+    } else {
+      setIsDraggingGallery(false);
+    }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent, target: 'monument' | 'gallery' = 'monument') => {
     e.preventDefault();
-    setIsDragging(false);
+    if (target === 'monument') {
+      setIsDragging(false);
+    } else {
+      setIsDraggingGallery(false);
+    }
 
     const file = e.dataTransfer.files?.[0];
     if (file) {
-      uploadFile(file);
-    }
-  };
-
-  const uploadGalleryFile = async (file: File) => {
-    const isImage = file.type.startsWith('image/');
-    const isVideo = file.type.startsWith('video/');
-    
-    if (!isImage && !isVideo) {
-      alert('Пожалуйста, выберите изображение или видео');
-      return;
-    }
-
-    setUploadingGallery(true);
-    setGalleryUploadProgress(0);
-
-    try {
-      const reader = new FileReader();
-      
-      reader.onprogress = (e) => {
-        if (e.lengthComputable) {
-          const percentLoaded = Math.round((e.loaded / e.total) * 50);
-          setGalleryUploadProgress(percentLoaded);
-        }
-      };
-      
-      reader.onload = async (event) => {
-        try {
-          setGalleryUploadProgress(50);
-          const base64 = event.target?.result as string;
-          const extension = file.name.split('.').pop() || (isVideo ? 'mp4' : 'jpg');
-
-          setGalleryUploadProgress(60);
-
-          const response = await fetch(UPLOAD_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              image: base64,
-              extension: extension
-            })
-          });
-
-          setGalleryUploadProgress(90);
-
-          if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-            console.error('Upload error:', errorData);
-            alert(`Ошибка загрузки: ${errorData.error || 'Неизвестная ошибка'}`);
-            setUploadingGallery(false);
-            setGalleryUploadProgress(0);
-            return;
-          }
-
-          const data = await response.json();
-
-          if (data.url) {
-            setGalleryUploadProgress(100);
-            setGalleryFormData({ 
-              ...galleryFormData, 
-              url: data.url,
-              type: isVideo ? 'video' : 'image'
-            });
-            
-            setTimeout(() => {
-              setUploadingGallery(false);
-              setGalleryUploadProgress(0);
-            }, 500);
-          } else {
-            alert('Ошибка: не получен URL файла');
-            setUploadingGallery(false);
-            setGalleryUploadProgress(0);
-          }
-        } catch (error) {
-          console.error('Upload error:', error);
-          alert('Ошибка загрузки файла');
-          setUploadingGallery(false);
-          setGalleryUploadProgress(0);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert('Ошибка загрузки файла');
-      setUploadingGallery(false);
-      setGalleryUploadProgress(0);
+      uploadFile(file, target);
     }
   };
 
   const handleGalleryImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) uploadGalleryFile(file);
-  };
-
-  const handleGalleryDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDraggingGallery(true);
-  };
-
-  const handleGalleryDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDraggingGallery(false);
-  };
-
-  const handleGalleryDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDraggingGallery(false);
-
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      uploadGalleryFile(file);
-    }
+    if (file) uploadFile(file, 'gallery');
   };
 
   const handleAddGalleryItem = () => {
@@ -605,9 +572,9 @@ const Admin = () => {
                           ? 'border-primary bg-primary/5' 
                           : 'border-border hover:border-primary/50'
                       }`}
-                      onDragOver={handleDragOver}
-                      onDragLeave={handleDragLeave}
-                      onDrop={handleDrop}
+                      onDragOver={(e) => handleDragOver(e, 'monument')}
+                      onDragLeave={(e) => handleDragLeave(e, 'monument')}
+                      onDrop={(e) => handleDrop(e, 'monument')}
                     >
                       {uploading ? (
                         <div className="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
@@ -864,9 +831,9 @@ const Admin = () => {
                             ? 'border-primary bg-primary/5' 
                             : 'border-border hover:border-primary/50'
                         }`}
-                        onDragOver={handleGalleryDragOver}
-                        onDragLeave={handleGalleryDragLeave}
-                        onDrop={handleGalleryDrop}
+                        onDragOver={(e) => handleDragOver(e, 'gallery')}
+                        onDragLeave={(e) => handleDragLeave(e, 'gallery')}
+                        onDrop={(e) => handleDrop(e, 'gallery')}
                       >
                         {uploadingGallery ? (
                           <div className="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
