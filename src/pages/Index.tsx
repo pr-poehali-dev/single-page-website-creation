@@ -433,6 +433,66 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-20 bg-gradient-to-br from-secondary via-background to-secondary">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="order-2 lg:order-1">
+                <img 
+                  src="https://cdn.poehali.dev/files/9c81d552-1d36-4f04-a7a8-337893c61188.png"
+                  alt="Комплексное благоустройство участка"
+                  className="w-full h-auto"
+                />
+              </div>
+
+              <div className="order-1 lg:order-2 space-y-8">
+                <div>
+                  <h2 className="font-oswald font-bold text-4xl md:text-5xl lg:text-6xl mb-4 tracking-tight">
+                    КОМПЛЕКСНЫЙ
+                  </h2>
+                  <p className="text-xl md:text-2xl text-muted-foreground font-medium">
+                    ОБЛИК УЧАСТКА
+                  </p>
+                  <p className="text-xl md:text-2xl text-muted-foreground font-medium">
+                    БЕЗ СЕЗОННЫХ ПРОБЛЕМ
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                      <Icon name="Building2" size={32} className="text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium">Мемориальный комплекс</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                      <Icon name="Maximize2" size={32} className="text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium">Решение для захоронения любых размеров</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <Button 
+                    size="lg"
+                    className="bg-[#f59f0a] hover:bg-[#d88a09] text-white font-oswald text-lg px-8 py-6 h-auto"
+                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Узнать подробнее
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="catalog" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
