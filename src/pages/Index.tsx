@@ -240,7 +240,7 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="relative py-20 md:py-32 bg-secondary overflow-hidden">
+      <section className="relative py-4 md:py-32 bg-secondary overflow-hidden">
         {/* Фоновое изображение */}
         <div className="absolute inset-0 opacity-70">
           <img 
