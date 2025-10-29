@@ -24,6 +24,22 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Все");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [designerSlideIndex, setDesignerSlideIndex] = useState(0);
+
+  const designerSlides = [
+    {
+      image: "https://cdn.poehali.dev/files/ff61127a-f19b-45fb-a0b0-0de645b1e942.jpg",
+      title: "Классический вертикальный памятник"
+    },
+    {
+      image: "https://cdn.poehali.dev/files/a2c6a92c-4a27-4268-a9b2-25eac2f8dad9.jpg",
+      title: "Эксклюзивный дизайн"
+    },
+    {
+      image: "https://cdn.poehali.dev/files/a3bce19f-dfe6-4d50-b322-ddd2ed85257a.jpg",
+      title: "Комплекс с оградой"
+    }
+  ];
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
@@ -421,52 +437,45 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="relative group overflow-hidden rounded-xl bg-secondary">
+                  <div className="relative group">
+                    <div className="relative overflow-hidden rounded-xl bg-secondary">
                       <div className="aspect-[4/3]">
                         <img 
-                          src="https://cdn.poehali.dev/files/ff61127a-f19b-45fb-a0b0-0de645b1e942.jpg"
-                          alt="Вариант памятника 1"
-                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                          src={designerSlides[designerSlideIndex].image}
+                          alt={"Пример работы"}
+                          className="w-full h-full object-contain transition-all duration-500"
                         />
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="absolute bottom-0 left-0 right-0 p-4">
-                          <p className="text-white font-oswald font-semibold text-lg">Классический вертикальный памятник</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <p className="text-white font-oswald font-semibold text-xl">{designerSlides[designerSlideIndex].title}</p>
                         </div>
                       </div>
+
+                      <button
+                        onClick={() => setDesignerSlideIndex((prev) => (prev - 1 + designerSlides.length) % designerSlides.length)}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      >
+                        <Icon name="ChevronLeft" size={24} />
+                      </button>
+                      <button
+                        onClick={() => setDesignerSlideIndex((prev) => (prev + 1) % designerSlides.length)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      >
+                        <Icon name="ChevronRight" size={24} />
+                      </button>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="relative group overflow-hidden rounded-xl bg-secondary">
-                        <div className="aspect-[3/4]">
-                          <img 
-                            src="https://cdn.poehali.dev/files/a2c6a92c-4a27-4268-a9b2-25eac2f8dad9.jpg"
-                            alt="Вариант памятника 2"
-                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="absolute bottom-0 left-0 right-0 p-3">
-                            <p className="text-white font-oswald font-semibold text-sm">Эксклюзивный дизайн</p>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="relative group overflow-hidden rounded-xl bg-secondary">
-                        <div className="aspect-[3/4]">
-                          <img 
-                            src="https://cdn.poehali.dev/files/a3bce19f-dfe6-4d50-b322-ddd2ed85257a.jpg"
-                            alt="Вариант памятника 3"
-                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="absolute bottom-0 left-0 right-0 p-3">
-                            <p className="text-white font-oswald font-semibold text-sm">Комплекс с оградой</p>
-                          </div>
-                        </div>
-                      </div>
+
+                    <div className="flex justify-center gap-2 mt-4">
+                      {designerSlides.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setDesignerSlideIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            index === designerSlideIndex ? 'bg-primary w-6' : 'bg-muted-foreground/30'
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
