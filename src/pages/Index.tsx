@@ -326,7 +326,9 @@ const Index = () => {
               </div>
 
               <div className="space-y-6">
-                <h2 className="font-oswald font-bold text-3xl md:text-5xl">Премиум модели со скидкой до 25%</h2>
+                <h2 className="font-oswald font-bold text-3xl md:text-5xl">
+                  Премиум модели со скидкой до 50%
+                </h2>
 
                 <div className="flex flex-wrap gap-4">
                   <Button 
