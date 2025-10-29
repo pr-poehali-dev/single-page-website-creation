@@ -242,14 +242,14 @@ const Index = () => {
 
       <section className="relative py-20 md:py-32 bg-secondary overflow-hidden">
         {/* Фоновое изображение */}
-        <div className="absolute inset-0 opacity-60 brightness-110">
+        <div className="absolute inset-0 opacity-70">
           <img 
-            src="https://cdn.poehali.dev/files/b6cb209f-f335-4bf7-a6c8-b51259d29e4d.jpg"
+            src="https://cdn.poehali.dev/files/7c3f7bb6-620d-4495-bf82-0abd8136ff4b.png"
             alt="Памятник фон"
             className="w-full h-full object-contain object-right"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/50 to-transparent"></div>
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-center">
