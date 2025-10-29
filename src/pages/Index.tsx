@@ -302,19 +302,19 @@ const Index = () => {
 
             {/* Баннер скидки - компактный */}
             <div className="relative animate-fade-in">
-              <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-6 shadow-xl overflow-hidden w-[200px] h-[200px] flex items-center justify-center">
+              <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-4 shadow-xl overflow-hidden w-[140px] h-[140px] flex items-center justify-center">
                 
                 <div className="relative z-10 text-primary-foreground text-center">
-                  <div className="mb-3">
-                    <div className="font-oswald font-bold text-5xl leading-none">25%</div>
-                    <div className="text-xs font-bold mt-1 opacity-90">СКИДКА</div>
+                  <div className="mb-2">
+                    <div className="font-oswald font-bold text-3xl leading-none">25%</div>
+                    <div className="text-[10px] font-bold mt-0.5 opacity-90">СКИДКА</div>
                   </div>
                   
-                  <div className="font-oswald font-bold text-xl mb-1">
+                  <div className="font-oswald font-bold text-sm mb-0.5">
                     АКЦИЯ!
                   </div>
                   
-                  <div className="text-xs opacity-80">
+                  <div className="text-[9px] opacity-80">
                     До конца месяца
                   </div>
                 </div>
