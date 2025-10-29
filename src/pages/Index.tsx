@@ -301,20 +301,20 @@ const Index = () => {
 
               {/* Баннер скидки - под кнопками */}
               <div className="w-full md:inline-block animate-fade-in">
-                <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-lg md:rounded-xl p-4 shadow-xl overflow-hidden w-full md:w-[140px] h-[80px] md:h-[140px] flex items-center justify-center">
+                <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-lg md:rounded-xl p-3 md:p-4 shadow-xl overflow-hidden w-full md:w-[140px] h-[70px] md:h-[140px] flex items-center justify-center">
                   
-                  <div className="relative z-10 text-primary-foreground flex md:flex-col items-center justify-between md:justify-center w-full md:w-auto gap-4 md:gap-0 px-4 md:px-0">
-                    <div className="flex items-center gap-3 md:block md:mb-2">
-                      <div className="font-oswald font-bold text-4xl md:text-3xl leading-none">25%</div>
-                      <div className="text-sm md:text-[10px] font-bold md:mt-0.5 opacity-90">СКИДКА</div>
+                  <div className="relative z-10 text-primary-foreground flex md:flex-col items-center justify-between md:justify-center w-full md:w-auto gap-2 md:gap-0 px-2 md:px-0">
+                    <div className="flex items-center gap-2 md:block md:mb-2">
+                      <div className="font-oswald font-bold text-3xl md:text-3xl leading-none">25%</div>
+                      <div className="text-xs md:text-[10px] font-bold md:mt-0.5 opacity-90">СКИДКА</div>
                     </div>
                     
                     <div className="text-right md:text-center">
-                      <div className="font-oswald font-bold text-lg md:text-sm md:mb-0.5">
+                      <div className="font-oswald font-bold text-base md:text-sm md:mb-0.5">
                         АКЦИЯ!
                       </div>
                       
-                      <div className="text-xs md:text-[9px] opacity-80">
+                      <div className="text-[10px] md:text-[9px] opacity-80">
                         До конца месяца
                       </div>
                     </div>
