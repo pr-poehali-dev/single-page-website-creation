@@ -252,7 +252,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/50 to-transparent"></div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-start">
             <div className="max-w-3xl">
               <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
                 Изготовление памятников из гранита
@@ -280,7 +280,7 @@ const Index = () => {
                   <span>Доставка и установка</span>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 mb-6">
                 <Button 
                   size="lg" 
                   className="bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg px-8 py-6"
@@ -298,24 +298,24 @@ const Index = () => {
                   ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ
                 </Button>
               </div>
-            </div>
 
-            {/* Баннер скидки - компактный */}
-            <div className="relative animate-fade-in">
-              <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-4 shadow-xl overflow-hidden w-[140px] h-[140px] flex items-center justify-center">
-                
-                <div className="relative z-10 text-primary-foreground text-center">
-                  <div className="mb-2">
-                    <div className="font-oswald font-bold text-3xl leading-none">25%</div>
-                    <div className="text-[10px] font-bold mt-0.5 opacity-90">СКИДКА</div>
-                  </div>
+              {/* Баннер скидки - под кнопками */}
+              <div className="inline-block animate-fade-in">
+                <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-4 shadow-xl overflow-hidden w-[140px] h-[140px] flex items-center justify-center">
                   
-                  <div className="font-oswald font-bold text-sm mb-0.5">
-                    АКЦИЯ!
-                  </div>
-                  
-                  <div className="text-[9px] opacity-80">
-                    До конца месяца
+                  <div className="relative z-10 text-primary-foreground text-center">
+                    <div className="mb-2">
+                      <div className="font-oswald font-bold text-3xl leading-none">25%</div>
+                      <div className="text-[10px] font-bold mt-0.5 opacity-90">СКИДКА</div>
+                    </div>
+                    
+                    <div className="font-oswald font-bold text-sm mb-0.5">
+                      АКЦИЯ!
+                    </div>
+                    
+                    <div className="text-[9px] opacity-80">
+                      До конца месяца
+                    </div>
                   </div>
                 </div>
               </div>
