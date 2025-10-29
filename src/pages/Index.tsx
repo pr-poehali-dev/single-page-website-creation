@@ -381,13 +381,13 @@ const Index = () => {
           </div>
 
           {/* Категории фильтров */}
-          <div className="flex justify-center mb-8 px-4">
+          <div className="flex justify-center mb-8 px-2">
             <div className="grid grid-cols-2 md:inline-flex bg-secondary rounded-lg p-1 gap-1 w-full md:w-auto">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-6 md:px-12 py-3 rounded-md font-oswald font-medium transition-all ${
+                  className={`px-3 md:px-12 py-2 md:py-3 rounded-md font-oswald font-medium text-xs md:text-base transition-all ${
                     activeCategory === category
                       ? 'bg-card text-foreground shadow-md'
                       : 'text-muted-foreground hover:text-foreground'
