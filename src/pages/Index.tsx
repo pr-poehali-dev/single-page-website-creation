@@ -254,27 +254,6 @@ const Index = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-[1fr,auto] gap-8 lg:gap-12 items-start">
             <div className="max-w-3xl">
-              {/* Баннер скидки - вверху на мобильных */}
-              <div className="inline-block mb-6 md:hidden animate-fade-in">
-                <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-4 shadow-xl overflow-hidden w-[140px] h-[140px] flex items-center justify-center">
-                  
-                  <div className="relative z-10 text-primary-foreground text-center">
-                    <div className="mb-2">
-                      <div className="font-oswald font-bold text-3xl leading-none">25%</div>
-                      <div className="text-[10px] font-bold mt-0.5 opacity-90">СКИДКА</div>
-                    </div>
-                    
-                    <div className="font-oswald font-bold text-sm mb-0.5">
-                      АКЦИЯ!
-                    </div>
-                    
-                    <div className="text-[9px] opacity-80">
-                      До конца месяца
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <h2 className="font-oswald font-bold text-4xl md:text-6xl mb-6 animate-fade-in">
                 Изготовление памятников из гранита
               </h2>
@@ -320,8 +299,8 @@ const Index = () => {
                 </Button>
               </div>
 
-              {/* Баннер скидки - под кнопками на десктопе */}
-              <div className="hidden md:inline-block animate-fade-in">
+              {/* Баннер скидки - под кнопками */}
+              <div className="inline-block animate-fade-in">
                 <div className="relative bg-gradient-to-br from-primary to-primary/90 rounded-xl p-4 shadow-xl overflow-hidden w-[140px] h-[140px] flex items-center justify-center">
                   
                   <div className="relative z-10 text-primary-foreground text-center">
