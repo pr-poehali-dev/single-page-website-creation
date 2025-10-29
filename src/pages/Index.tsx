@@ -447,55 +447,55 @@ const Index = () => {
 
           <div className="max-w-5xl mx-auto">
             <Card className="bg-card border-border shadow-xl overflow-hidden">
-              <CardContent className="p-8 md:p-12">
-                <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                  <div className="space-y-6">
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Icon name="Palette" size={24} className="text-primary" />
+              <CardContent className="p-4 md:p-12">
+                <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
+                  <div className="space-y-4 md:space-y-6">
+                    <div className="space-y-3 md:space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Palette" size={20} className="text-primary md:w-6 md:h-6" />
                         </div>
                         <div>
-                          <h3 className="font-oswald font-bold text-xl mb-2">Индивидуальный подход</h3>
-                          <div className="text-muted-foreground">
+                          <h3 className="font-oswald font-bold text-base md:text-xl mb-1 md:mb-2">Индивидуальный подход</h3>
+                          <div className="text-muted-foreground text-sm md:text-base">
                             Учтём все ваши пожелания: форму, размер, материал, декоративные элементы
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Icon name="Image" size={24} className="text-primary" />
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Image" size={20} className="text-primary md:w-6 md:h-6" />
                         </div>
                         <div>
-                          <h3 className="font-oswald font-bold text-xl mb-2">Визуализация</h3>
-                          <div className="text-muted-foreground">
+                          <h3 className="font-oswald font-bold text-base md:text-xl mb-1 md:mb-2">Визуализация</h3>
+                          <div className="text-muted-foreground text-sm md:text-base">
                             Покажем, как будет выглядеть памятник до начала работ
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Icon name="Target" size={24} className="text-primary" />
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Target" size={20} className="text-primary md:w-6 md:h-6" />
                         </div>
                         <div>
-                          <h3 className="font-oswald font-bold text-xl mb-2">Подбор в рамках бюджета</h3>
-                          <div className="text-muted-foreground">
+                          <h3 className="font-oswald font-bold text-base md:text-xl mb-1 md:mb-2">Подбор в рамках бюджета</h3>
+                          <div className="text-muted-foreground text-sm md:text-base">
                             Предложим оптимальные варианты под ваш бюджет
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="pt-6 border-t border-border">
-                      <div className="flex items-center gap-3 mb-4">
-                        <Icon name="Phone" size={20} className="text-primary" />
-                        <span className="font-oswald font-bold text-lg">Бесплатная консультация</span>
+                    <div className="pt-4 md:pt-6 border-t border-border">
+                      <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                        <Icon name="Phone" size={18} className="text-primary md:w-5 md:h-5" />
+                        <span className="font-oswald font-bold text-base md:text-lg">Бесплатная консультация</span>
                       </div>
                       <Button 
                         size="lg"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-lg"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-oswald text-sm md:text-lg py-3 md:py-6"
                         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ ДИЗАЙНЕРА
