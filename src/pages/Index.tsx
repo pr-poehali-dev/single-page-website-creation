@@ -24,29 +24,6 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Все");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [promoSlideIndex, setPromoSlideIndex] = useState(0);
-
-  const promoSlides = [
-    {
-      image: "https://cdn.poehali.dev/files/5c627d7b-3e9e-4df0-8207-179b8b81c683.png",
-      title: "Премиум модели со скидкой до 50%"
-    },
-    {
-      image: "https://cdn.poehali.dev/projects/522c6aad-08c3-4e8e-ac23-7f70b446ea53/files/50599fc4-6d1c-4e85-a393-3b343e4c2df6.jpg",
-      title: "Эксклюзивные парные памятники"
-    },
-    {
-      image: "https://cdn.poehali.dev/projects/522c6aad-08c3-4e8e-ac23-7f70b446ea53/files/c5e68b56-f5ea-4f9c-9acf-2bc658b3d574.jpg",
-      title: "Памятники с гравировкой"
-    }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPromoSlideIndex((prev) => (prev + 1) % promoSlides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   const API_URL = "https://functions.poehali.dev/92a4ea52-a3a0-4502-9181-ceeb714f2ad6";
 
@@ -340,43 +317,16 @@ const Index = () => {
             </div>
 
             <div className="grid lg:grid-cols-[400px,1fr] gap-8 items-center p-8 lg:p-12">
-              <div className="relative group">
-                <div className="relative overflow-hidden rounded-xl">
-                  <img 
-                    src={promoSlides[promoSlideIndex].image}
-                    alt="Премиум памятники"
-                    className="w-full h-auto transition-opacity duration-500"
-                  />
-                </div>
-
-                <button
-                  onClick={() => setPromoSlideIndex((prev) => (prev - 1 + promoSlides.length) % promoSlides.length)}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <Icon name="ChevronLeft" size={24} />
-                </button>
-                <button
-                  onClick={() => setPromoSlideIndex((prev) => (prev + 1) % promoSlides.length)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <Icon name="ChevronRight" size={24} />
-                </button>
-
-                <div className="flex justify-center gap-2 mt-4">
-                  {promoSlides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setPromoSlideIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        index === promoSlideIndex ? 'bg-[#f59f0a] w-6' : 'bg-white/30'
-                      }`}
-                    />
-                  ))}
-                </div>
+              <div className="relative">
+                <img 
+                  src="https://cdn.poehali.dev/files/5c627d7b-3e9e-4df0-8207-179b8b81c683.png"
+                  alt="Премиум памятники"
+                  className="w-full h-auto"
+                />
               </div>
 
               <div className="space-y-6">
-                <h2 className="font-oswald font-bold text-3xl md:text-5xl transition-opacity duration-500">{promoSlides[promoSlideIndex].title}</h2>
+                <h2 className="font-oswald font-bold text-3xl md:text-5xl">Премиум модели со скидкой до 25%</h2>
 
                 <div className="flex flex-wrap gap-4">
                   <Button 
